@@ -9,4 +9,34 @@ services:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 10000        # Render's default PORT; the app already reads process.env.PORT
+        value: 10000
+
+      # Aiven MySQL
+      - key: DB_HOST
+        value: mysql-afc10ac-mysql-database-3624.i.aivencloud.com
+      - key: DB_PORT
+        value: 20201
+      - key: DB_USER
+        value: avnadmin
+      - key: DB_NAME
+        value: defaultdb
+
+      # Secrets — set these manually in the Render dashboard
+      - key: DB_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: COOKIE_SECRET
+        sync: false
+
+      # Auth
+      - key: JWT_EXPIRES_IN
+        value: 1h
+
+      # CORS — set this in the Render dashboard once you have your Vercel URL
+      - key: FRONTEND_URL
+        sync: false
+
+      # AI service
+      - key: AI_BASE_URL
+        value: https://srajan3624-promptly.hf.space
