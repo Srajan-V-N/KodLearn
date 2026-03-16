@@ -2,6 +2,7 @@ services:
   - type: web
     name: kodlearn-backend
     runtime: node
+    plan: free
     rootDir: backend
     buildCommand: npm install && npm run build
     startCommand: npm start
@@ -40,3 +41,7 @@ services:
       # AI service
       - key: AI_BASE_URL
         value: https://srajan3624-promptly.hf.space
+      - key: HF_API_KEY
+        sync: false
+      - key: HF_MODEL
+        value: Qwen/Qwen2.5-1.5B-Instruct
