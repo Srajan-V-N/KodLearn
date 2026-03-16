@@ -135,8 +135,8 @@ export async function getCourses(opts?: {
      WHERE ${where}
      GROUP BY c.id
      ORDER BY c.createdAt DESC
-     LIMIT ? OFFSET ?`,
-    [...params, limit, offset],
+     LIMIT ${limit} OFFSET ${offset}`,
+    params,
   );
 
   const data = (rows as mysql.RowDataPacket[]).map((row) => ({
