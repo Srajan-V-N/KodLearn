@@ -16,11 +16,11 @@ export function WelcomeCard() {
     <div className="glass-card rounded-2xl p-6 border-l-4 border-l-brand">
       <p className="text-muted-foreground text-sm">{getGreeting()},</p>
       <h2 className="text-2xl font-bold mt-1" style={{ fontFamily: 'var(--font-space)' }}>
-        {user?.username ?? 'User'} 👋
+        {user?.username ?? 'User'}
       </h2>
       <p className="text-muted-foreground text-sm mt-2">
         {user?.isFirstLogin
-          ? 'Welcome to KodBank'
+          ? 'Welcome to KodLearn'
           : 'Welcome back'}
       </p>
     </div>

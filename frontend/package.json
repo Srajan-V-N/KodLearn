@@ -1,5 +1,5 @@
 {
-  "name": "kodbank-frontend",
+  "name": "kodlearn-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -24,6 +24,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.1",
+    "react-youtube": "^10.1.0",
     "react-markdown": "^10.1.0",
     "react-syntax-highlighter": "^16.1.0",
     "shiki": "^1.29.2",

@@ -1,8 +1,8 @@
--- KodBank Database Schema
+-- KodLearn Database Schema
 -- Reference SQL for Aiven MySQL
 -- Run this once in your Aiven Query Editor before starting the server.
 
-CREATE TABLE `kod_users` (
+CREATE TABLE `kod_user` (
   `id`        VARCHAR(36)    NOT NULL,
   `uid`       VARCHAR(50)    NOT NULL,
   `username`  VARCHAR(50)    NOT NULL,
@@ -107,3 +107,50 @@ ALTER TABLE `ai_conversations`
   ADD CONSTRAINT `ai_conversations_projectId_fkey`
     FOREIGN KEY (`projectId`) REFERENCES `ai_projects` (`id`)
     ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- =====================================================
+-- COURSES & LEARNING TABLES
+-- =====================================================
+
+CREATE TABLE IF NOT EXISTS `lessons` (
+  `id`               VARCHAR(36)  NOT NULL,
+  `courseId`         VARCHAR(36)  NOT NULL,
+  `title`            VARCHAR(255) NOT NULL,
+  `content`          LONGTEXT,
+  `video_url`        VARCHAR(500),
+  `order_num`        INT          DEFAULT 0,
+  `duration_minutes` INT          DEFAULT 0,
+  `is_published`     BOOLEAN      DEFAULT true,
+  `createdAt`        DATETIME(3),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `lessons_courseId_fkey`
+    FOREIGN KEY (`courseId`) REFERENCES `courses` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `lesson_progress` (
+  `id`          VARCHAR(36) NOT NULL,
+  `userId`      VARCHAR(36) NOT NULL,
+  `lessonId`    VARCHAR(36) NOT NULL,
+  `completedAt` DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_lesson_progress` (`userId`, `lessonId`),
+  CONSTRAINT `lesson_progress_userId_fkey`
+    FOREIGN KEY (`userId`) REFERENCES `kod_users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `lesson_progress_lessonId_fkey`
+    FOREIGN KEY (`lessonId`) REFERENCES `lessons` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `course_reviews` (
+  `id`        VARCHAR(36) NOT NULL,
+  `userId`    VARCHAR(36) NOT NULL,
+  `courseId`  VARCHAR(36) NOT NULL,
+  `rating`    TINYINT     NOT NULL,
+  `comment`   TEXT,
+  `createdAt` DATETIME(3),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_course_review` (`userId`, `courseId`),
+  CONSTRAINT `course_reviews_userId_fkey`
+    FOREIGN KEY (`userId`) REFERENCES `kod_users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `course_reviews_courseId_fkey`
+    FOREIGN KEY (`courseId`) REFERENCES `courses` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

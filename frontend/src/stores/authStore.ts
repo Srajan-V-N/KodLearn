@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthState>()(
       setHasHydrated: (state) => set({ _hasHydrated: state }),
     }),
     {
-      name: 'kodbank-auth',
+      name: 'kodlearn-auth',
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);
       },

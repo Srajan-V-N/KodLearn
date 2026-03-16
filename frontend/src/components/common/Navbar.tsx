@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { LogOut, User } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { LogOut, User, Award, LayoutDashboard, BookOpen, GraduationCap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
@@ -10,9 +11,16 @@ import { useAuthStore } from '@/stores/authStore';
 import apiClient from '@/lib/axios';
 import { toast } from 'sonner';
 
+const navLinks = [
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/courses', label: 'Courses', icon: BookOpen },
+  { href: '/my-learning', label: 'My Learning', icon: GraduationCap },
+];
+
 export function Navbar() {
   const { logout } = useAuthStore();
   const router = useRouter();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +49,29 @@ export function Navbar() {
   return (
     <nav className="glass-card border-b sticky top-0 z-50">
       <div className="mx-auto px-6 max-w-7xl h-16 flex items-center justify-between">
-        <Logo />
+        <div className="flex items-center gap-6">
+          <Logo />
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href || pathname.startsWith(link.href + '/');
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-brand/10 text-brand'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                  }`}
+                >
+                  <link.icon className="w-3.5 h-3.5" />
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="flex items-center gap-4">
           <ThemeToggle />
           <div className="relative" ref={dropdownRef}>
@@ -60,11 +90,27 @@ export function Navbar() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -4 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 mt-2 w-40 glass-card border shadow-lg rounded-xl overflow-hidden"
+                  className="absolute right-0 mt-2 w-48 glass-card border shadow-lg rounded-xl overflow-hidden"
                 >
+                  <Link
+                    href="/profile"
+                    onClick={() => setOpen(false)}
+                    className="w-full flex items-center gap-2 px-4 py-3 text-sm hover:bg-muted/60 transition-colors"
+                  >
+                    <User className="w-4 h-4" />
+                    Profile
+                  </Link>
+                  <Link
+                    href="/certificates"
+                    onClick={() => setOpen(false)}
+                    className="w-full flex items-center gap-2 px-4 py-3 text-sm hover:bg-muted/60 transition-colors border-t border-border/50"
+                  >
+                    <Award className="w-4 h-4" />
+                    Certificates
+                  </Link>
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-2 px-4 py-3 text-sm text-destructive hover:bg-muted/60 transition-colors"
+                    className="w-full flex items-center gap-2 px-4 py-3 text-sm text-destructive hover:bg-muted/60 transition-colors border-t border-border/50"
                   >
                     <LogOut className="w-4 h-4" />
                     Logout

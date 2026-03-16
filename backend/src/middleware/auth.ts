@@ -10,7 +10,7 @@ export async function authenticate(
   next: NextFunction,
 ): Promise<void> {
   try {
-    const token = req.cookies?.kodbank_token as string | undefined;
+    const token = req.cookies?.kodlearn_token as string | undefined;
 
     if (!token) {
       res.status(401).json(errorResponse('Authentication required'));

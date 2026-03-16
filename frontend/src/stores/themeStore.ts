@@ -17,6 +17,6 @@ export const useThemeStore = create<ThemeState>()(
         set((state) => ({ theme: state.theme === 'dark' ? 'light' : 'dark' })),
       setTheme: (theme) => set({ theme }),
     }),
-    { name: 'kodbank-theme' },
+    { name: 'kodlearn-theme' },
   ),
 );

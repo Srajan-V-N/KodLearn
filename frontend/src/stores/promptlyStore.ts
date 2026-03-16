@@ -162,7 +162,7 @@ export const usePromptlyStore = create<PromptlyStore>()(
       setPendingProjectId: (id) => set({ pendingProjectId: id }),
     }),
     {
-      name: 'kodbank-promptly',
+      name: 'kodlearn-promptly',
       partialize: (state) => ({
         sidebarCollapsed: state.sidebarCollapsed,
         projects: state.projects,

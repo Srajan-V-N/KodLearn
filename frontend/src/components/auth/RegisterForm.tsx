@@ -55,7 +55,7 @@ export function RegisterForm() {
         <h1 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-space)' }}>
           Create account
         </h1>
-        <p className="text-muted-foreground text-sm">Join KodBank today — free forever</p>
+        <p className="text-muted-foreground text-sm">Join KodLearn today — free forever</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">

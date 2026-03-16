@@ -19,7 +19,7 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
     const input = req.body as LoginInput;
     const { token, user } = await loginUser(input);
 
-    res.cookie('kodbank_token', token, {
+    res.cookie('kodlearn_token', token, {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
       sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax',
@@ -34,12 +34,12 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
 
 export async function logout(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const token = req.cookies?.kodbank_token as string | undefined;
+    const token = req.cookies?.kodlearn_token as string | undefined;
     if (token && req.user) {
       await logoutUser(token, req.user.userId);
     }
 
-    res.clearCookie('kodbank_token', {
+    res.clearCookie('kodlearn_token', {
       httpOnly: true,
       secure: env.NODE_ENV === 'production',
       sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax',

@@ -32,7 +32,7 @@ export function LoginForm() {
       const res = await apiClient.post<ApiResponse<User>>('/auth/login', data);
       const isFirst = res.data.data.isFirstLogin;
       setUser(res.data.data);
-      toast.success(isFirst ? 'Welcome to KodBank!' : 'Welcome back!');
+      toast.success(isFirst ? 'Welcome to KodLearn!' : 'Welcome back!');
       router.push('/dashboard');
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
@@ -53,7 +53,7 @@ export function LoginForm() {
         <h1 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-space)' }}>
           Welcome back
         </h1>
-        <p className="text-muted-foreground text-sm">Sign in to your KodBank account</p>
+        <p className="text-muted-foreground text-sm">Sign in to your KodLearn account</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

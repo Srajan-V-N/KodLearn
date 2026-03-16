@@ -6,9 +6,11 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '@/stores/authStore';
 import { WelcomeCard } from '@/components/dashboard/WelcomeCard';
-import { BalanceCard } from '@/components/dashboard/BalanceCard';
+import { EnrolledCoursesCard } from '@/components/dashboard/EnrolledCoursesCard';
+import { LearningStatsCard } from '@/components/dashboard/LearningStatsCard';
+import { ContinueLearningCard } from '@/components/dashboard/ContinueLearning';
+import { RecommendedCourses } from '@/components/dashboard/RecommendedCourses';
 import { PageTransition } from '@/components/common/PageTransition';
-import { FloatingGradient } from '@/components/background/FloatingGradient';
 
 export default function DashboardPage() {
   const { isAuthenticated, _hasHydrated } = useAuthStore();
@@ -26,12 +28,12 @@ export default function DashboardPage() {
   return (
     <>
       <PageTransition>
-        <div className="relative">
-          <FloatingGradient />
-          <div className="relative z-10 space-y-6">
-            <WelcomeCard />
-            <BalanceCard />
-          </div>
+        <div className="space-y-6">
+          <WelcomeCard />
+          <ContinueLearningCard />
+          <EnrolledCoursesCard />
+          <LearningStatsCard />
+          <RecommendedCourses />
         </div>
       </PageTransition>
 

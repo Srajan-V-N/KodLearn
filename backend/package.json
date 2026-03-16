@@ -1,7 +1,7 @@
 {
-  "name": "kodbank-backend",
+  "name": "kodlearn-backend",
   "version": "1.0.0",
-  "description": "KodBank Neobank Backend API",
+  "description": "KodLearn LMS Backend API",
   "main": "dist/server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
