@@ -15,14 +15,14 @@ const app = express();
 app.use(helmet());
 
 // CORS — must come before body parsing
-app.use(
-  cors({
-    origin: ['http://localhost:3000', env.FRONTEND_URL].filter(Boolean) as string[],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  }),
-);
+const corsOptions = {
+  origin: ['http://localhost:3000', env.FRONTEND_URL].filter(Boolean) as string[],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.options('*', cors(corsOptions)); // Handle preflight for all routes
+app.use(cors(corsOptions));
 
 // Body parsing
 app.use(express.json({ limit: '10kb' }));
