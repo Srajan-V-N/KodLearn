@@ -45,3 +45,16 @@ services:
         sync: false
       - key: HF_MODEL
         value: Qwen/Qwen2.5-1.5B-Instruct
+
+  - type: web
+    name: kodlearn-frontend
+    runtime: node
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
