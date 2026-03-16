@@ -2,16 +2,31 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { BookOpen } from 'lucide-react';
 import apiClient from '@/lib/axios';
-import type { ApiResponse, Course, Enrollment } from '@/types';
+import { getCategoryColor, getCategoryGradient } from '@/lib/utils';
+import type { ApiResponse, CoursesResponse, Course, Enrollment } from '@/types';
 
-const categoryColors: Record<string, string> = {
-  Programming: 'bg-blue-500/10 text-blue-500',
-  'Web Development': 'bg-purple-500/10 text-purple-500',
-  'Data Science': 'bg-green-500/10 text-green-500',
-  Design: 'bg-pink-500/10 text-pink-500',
-};
+function CourseThumbnailTiny({ course }: { course: Course }) {
+  if (course.thumbnail_url) {
+    return (
+      <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+        <Image src={course.thumbnail_url} alt={course.title} fill className="object-cover" />
+      </div>
+    );
+  }
+  const gradient = getCategoryGradient(course.category);
+  return (
+    <div
+      className={`w-10 h-10 rounded-lg flex-shrink-0 bg-gradient-to-br ${gradient} flex items-center justify-center`}
+    >
+      <span className="text-sm font-bold text-white/70 select-none">
+        {course.title.charAt(0)}
+      </span>
+    </div>
+  );
+}
 
 export function RecommendedCourses() {
   const router = useRouter();
@@ -21,11 +36,11 @@ export function RecommendedCourses() {
 
   useEffect(() => {
     Promise.all([
-      apiClient.get<ApiResponse<Course[]>>('/courses'),
+      apiClient.get<ApiResponse<CoursesResponse>>('/courses'),
       apiClient.get<ApiResponse<Enrollment[]>>('/user/enrollments'),
     ])
       .then(([coursesRes, enrollmentsRes]) => {
-        const all: Course[] = coursesRes.data.data ?? [];
+        const all: Course[] = coursesRes.data.data?.data ?? [];
         const enrolled = new Set((enrollmentsRes.data.data ?? []).map((e) => e.courseId));
         setCourses(all.filter((c) => !enrolled.has(c.id)).slice(0, 3));
       })
@@ -79,16 +94,19 @@ export function RecommendedCourses() {
             key={course.id}
             className="flex items-center justify-between gap-4 p-3 rounded-xl border border-border hover:border-brand/30 transition-colors"
           >
-            <div className="min-w-0">
-              <span
-                className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full mb-1 ${
-                  categoryColors[course.category] ?? 'bg-brand/10 text-brand'
-                }`}
-              >
-                {course.category}
-              </span>
-              <p className="text-sm font-medium leading-snug truncate">{course.title}</p>
-              <p className="text-xs text-muted-foreground">{course.instructor}</p>
+            <div className="flex items-center gap-3 min-w-0">
+              <CourseThumbnailTiny course={course} />
+              <div className="min-w-0">
+                <span
+                  className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full mb-1 ${getCategoryColor(
+                    course.category,
+                  )}`}
+                >
+                  {course.category}
+                </span>
+                <p className="text-sm font-medium leading-snug truncate">{course.title}</p>
+                <p className="text-xs text-muted-foreground">{course.instructor}</p>
+              </div>
             </div>
             <button
               onClick={() => handleEnroll(course.id)}

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Lock, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import dynamic from 'next/dynamic';
 const YouTubePlayer = dynamic(
@@ -25,7 +25,7 @@ export default function LessonPage({ params }: Props) {
   const [videoProgress, setVideoProgress] = useState<VideoProgress | null>(null);
   const [currentLesson, setCurrentLesson] = useState<LessonWithLock | null>(null);
   const [loading, setLoading] = useState(true);
-  // Track completion in-progress to avoid duplicate calls
+  const [markingComplete, setMarkingComplete] = useState(false);
   const completingRef = useRef(false);
 
   useEffect(() => {
@@ -92,12 +92,10 @@ export default function LessonPage({ params }: Props) {
         is_completed: true,
       });
 
-      // Re-fetch curriculum to get updated lock states
       const res = await apiClient.get(`/courses/${courseId}`);
       const updatedCurriculum: CourseWithCurriculum = res.data.data;
       setCurriculum(updatedCurriculum);
 
-      // Find next unlocked lesson after current
       const allLessons = updatedCurriculum.sections.flatMap((s) => s.lessons);
       const currentIndex = allLessons.findIndex((l) => l.id === lessonId);
       const nextLesson = allLessons.slice(currentIndex + 1).find((l) => !l.is_locked);
@@ -112,10 +110,19 @@ export default function LessonPage({ params }: Props) {
     }
   }, [lessonId, courseId, currentLesson, router]);
 
+  const handleManualComplete = async () => {
+    if (markingComplete || completingRef.current) return;
+    setMarkingComplete(true);
+    await handleComplete();
+    setMarkingComplete(false);
+  };
+
   const allLessons: LessonWithLock[] = curriculum?.sections.flatMap((s) => s.lessons) ?? [];
   const currentIndex = allLessons.findIndex((l) => l.id === lessonId);
   const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
   const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
+  const completedCount = allLessons.filter((l) => l.is_completed).length;
+  const progressPct = allLessons.length > 0 ? Math.round((completedCount / allLessons.length) * 100) : 0;
 
   if (!_hasHydrated || !isAuthenticated) return null;
 
@@ -163,12 +170,18 @@ export default function LessonPage({ params }: Props) {
     <div className="flex flex-col lg:flex-row min-h-[calc(100vh-64px)]">
       {/* Main content */}
       <div className="flex-1 p-4 lg:p-6 space-y-4 min-w-0">
-        {/* Breadcrumb */}
-        <div>
-          <p className="text-xs text-muted-foreground">{curriculum.title}</p>
-          <h1 className="text-xl font-bold mt-1" style={{ fontFamily: 'var(--font-space)' }}>
-            {currentLesson.title}
-          </h1>
+        {/* Breadcrumb + progress */}
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <p className="text-xs text-muted-foreground">{curriculum.title}</p>
+            <h1 className="text-xl font-bold mt-1" style={{ fontFamily: 'var(--font-space)' }}>
+              {currentLesson.title}
+            </h1>
+          </div>
+          <div className="flex-shrink-0 text-right">
+            <p className="text-xs text-muted-foreground">Course Progress</p>
+            <p className="text-sm font-bold text-brand">{progressPct}%</p>
+          </div>
         </div>
 
         {/* Video Player */}
@@ -185,8 +198,8 @@ export default function LessonPage({ params }: Props) {
           </div>
         )}
 
-        {/* Navigation */}
-        <div className="flex items-center justify-between pt-2">
+        {/* Mark as Complete + Navigation */}
+        <div className="flex items-center justify-between pt-2 gap-3 flex-wrap">
           <button
             onClick={() => {
               if (prevLesson && !prevLesson.is_locked) {
@@ -199,6 +212,18 @@ export default function LessonPage({ params }: Props) {
             <ChevronLeft className="w-4 h-4" />
             Previous
           </button>
+
+          {!currentLesson.is_completed && (
+            <button
+              onClick={handleManualComplete}
+              disabled={markingComplete}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-brand text-brand text-sm font-medium hover:bg-brand/10 transition-colors disabled:opacity-50"
+            >
+              <CheckCircle2 className="w-4 h-4" />
+              {markingComplete ? 'Marking…' : 'Mark as Complete'}
+            </button>
+          )}
+
           <button
             onClick={() => {
               if (nextLesson && !nextLesson.is_locked) {

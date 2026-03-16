@@ -10,8 +10,12 @@ import { successResponse } from '../utils/apiResponse';
 
 export async function listCourses(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const courses = await getCourses();
-    res.status(200).json(successResponse('Courses retrieved', courses));
+    const search = typeof req.query.search === 'string' ? req.query.search.trim() : undefined;
+    const category = typeof req.query.category === 'string' ? req.query.category.trim() : undefined;
+    const page = req.query.page ? Number(req.query.page) : undefined;
+    const limit = req.query.limit ? Number(req.query.limit) : undefined;
+    const result = await getCourses({ search, category, page, limit });
+    res.status(200).json(successResponse('Courses retrieved', result));
   } catch (err) {
     next(err);
   }

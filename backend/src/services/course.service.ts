@@ -83,11 +83,69 @@ export interface Enrollment {
   course: Course;
 }
 
-export async function getCourses(): Promise<Course[]> {
-  const [rows] = await pool.execute<mysql.RowDataPacket[]>(
-    'SELECT * FROM courses WHERE is_published = true ORDER BY createdAt DESC',
+export interface CourseWithRating extends Course {
+  avg_rating: number | null;
+  rating_count: number;
+}
+
+export interface CoursesPage {
+  data: CourseWithRating[];
+  total: number;
+  page: number;
+  totalPages: number;
+}
+
+export async function getCourses(opts?: {
+  search?: string;
+  category?: string;
+  page?: number;
+  limit?: number;
+}): Promise<CoursesPage> {
+  const page = Math.max(1, opts?.page ?? 1);
+  const limit = Math.min(50, Math.max(1, opts?.limit ?? 12));
+  const offset = (page - 1) * limit;
+
+  const conditions: string[] = ['c.is_published = true'];
+  const params: (string | number)[] = [];
+
+  if (opts?.search) {
+    conditions.push('(c.title LIKE ? OR c.description LIKE ?)');
+    const like = `%${opts.search}%`;
+    params.push(like, like);
+  }
+  if (opts?.category) {
+    conditions.push('c.category = ?');
+    params.push(opts.category);
+  }
+
+  const where = conditions.join(' AND ');
+
+  const [countRows] = await pool.execute<mysql.RowDataPacket[]>(
+    `SELECT COUNT(*) AS cnt FROM courses c WHERE ${where}`,
+    params,
   );
-  return rows as Course[];
+  const total = Number((countRows as mysql.RowDataPacket[])[0].cnt);
+
+  const [rows] = await pool.execute<mysql.RowDataPacket[]>(
+    `SELECT c.*,
+            AVG(r.rating)   AS avg_rating,
+            COUNT(r.id)     AS rating_count
+     FROM courses c
+     LEFT JOIN course_reviews r ON r.courseId = c.id
+     WHERE ${where}
+     GROUP BY c.id
+     ORDER BY c.createdAt DESC
+     LIMIT ? OFFSET ?`,
+    [...params, limit, offset],
+  );
+
+  const data = (rows as mysql.RowDataPacket[]).map((row) => ({
+    ...(row as CourseWithRating),
+    avg_rating: row.avg_rating != null ? parseFloat(row.avg_rating) : null,
+    rating_count: Number(row.rating_count),
+  }));
+
+  return { data, total, page, totalPages: Math.ceil(total / limit) };
 }
 
 export async function getCourseById(id: string): Promise<Course> {

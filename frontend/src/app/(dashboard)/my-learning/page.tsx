@@ -2,11 +2,33 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { PlayCircle, BookOpen } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import { PageTransition } from '@/components/common/PageTransition';
 import apiClient from '@/lib/axios';
+import { getCategoryGradient } from '@/lib/utils';
 import type { Enrollment, ContinueLearning } from '@/types';
+
+function CourseThumbnailSmall({ course }: { course: Enrollment['course'] }) {
+  if (course.thumbnail_url) {
+    return (
+      <div className="relative w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
+        <Image src={course.thumbnail_url} alt={course.title} fill className="object-cover" />
+      </div>
+    );
+  }
+  const gradient = getCategoryGradient(course.category);
+  return (
+    <div
+      className={`w-16 h-12 rounded-lg flex-shrink-0 bg-gradient-to-br ${gradient} flex items-center justify-center`}
+    >
+      <span className="text-lg font-bold text-white/70 select-none">
+        {course.title.charAt(0)}
+      </span>
+    </div>
+  );
+}
 
 export default function MyLearningPage() {
   const { isAuthenticated, _hasHydrated } = useAuthStore();
@@ -97,9 +119,24 @@ export default function MyLearningPage() {
           </div>
         ) : (
           <>
-            <CourseSection title="In Progress" courses={active} router={router} />
-            <CourseSection title="Not Started" courses={notStarted} router={router} />
-            <CourseSection title="Completed" courses={completed} router={router} />
+            <CourseSection
+              title="In Progress"
+              courses={active}
+              router={router}
+              continueLearning={continueLearning}
+            />
+            <CourseSection
+              title="Not Started"
+              courses={notStarted}
+              router={router}
+              continueLearning={continueLearning}
+            />
+            <CourseSection
+              title="Completed"
+              courses={completed}
+              router={router}
+              continueLearning={continueLearning}
+            />
           </>
         )}
       </div>
@@ -111,12 +148,25 @@ function CourseSection({
   title,
   courses,
   router,
+  continueLearning,
 }: {
   title: string;
   courses: Enrollment[];
   router: ReturnType<typeof useRouter>;
+  continueLearning: ContinueLearning | null;
 }) {
   if (courses.length === 0) return null;
+
+  function getResumeHref(e: Enrollment): string {
+    if (
+      continueLearning &&
+      continueLearning.courseId === e.courseId
+    ) {
+      return `/learn/${e.courseId}/${continueLearning.lessonId}`;
+    }
+    return `/courses/${e.courseId}`;
+  }
+
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-bold" style={{ fontFamily: 'var(--font-space)' }}>
@@ -129,9 +179,12 @@ function CourseSection({
             key={e.id}
             className="glass-card rounded-2xl p-5 space-y-3 hover:border-brand/40 border border-border transition-colors"
           >
-            <div>
-              <p className="font-semibold text-sm leading-snug">{e.course.title}</p>
-              <p className="text-xs text-muted-foreground mt-1">{e.course.instructor}</p>
+            <div className="flex gap-3 items-start">
+              <CourseThumbnailSmall course={e.course} />
+              <div className="min-w-0 flex-1">
+                <p className="font-semibold text-sm leading-snug">{e.course.title}</p>
+                <p className="text-xs text-muted-foreground mt-1">{e.course.instructor}</p>
+              </div>
             </div>
             <div className="space-y-1">
               <div className="flex justify-between text-xs text-muted-foreground">
@@ -146,7 +199,7 @@ function CourseSection({
               </div>
             </div>
             <button
-              onClick={() => router.push(`/courses/${e.courseId}`)}
+              onClick={() => router.push(getResumeHref(e))}
               className="w-full text-xs font-medium py-2 rounded-xl border border-brand text-brand hover:bg-brand/10 transition-colors"
             >
               {e.completed ? 'View Course' : e.progress > 0 ? 'Resume' : 'Start'}

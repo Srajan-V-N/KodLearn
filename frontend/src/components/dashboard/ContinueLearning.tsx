@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { PlayCircle, ArrowRight } from 'lucide-react';
 import apiClient from '@/lib/axios';
 import type { ApiResponse, ContinueLearning } from '@/types';
@@ -50,20 +51,32 @@ export function ContinueLearningCard() {
   return (
     <div className="glass-card rounded-2xl p-6 border-l-4 border-l-brand">
       <div className="flex items-start justify-between gap-4">
-        <div className="space-y-1 flex-1 min-w-0">
-          <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
-            Continue Learning
-          </p>
-          <p className="font-bold leading-snug truncate" style={{ fontFamily: 'var(--font-space)' }}>
-            {data.courseTitle}
-          </p>
-          <p className="text-xs text-muted-foreground truncate">
-            {data.sectionTitle && `${data.sectionTitle} · `}
-            {data.lessonTitle}
-          </p>
-          {minutes > 0 && (
-            <p className="text-xs text-brand">{minutes}m watched</p>
-          )}
+        <div className="flex items-start gap-3 flex-1 min-w-0">
+          {data.thumbnail_url ? (
+            <div className="relative w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
+              <Image
+                src={data.thumbnail_url}
+                alt={data.courseTitle}
+                fill
+                className="object-cover"
+              />
+            </div>
+          ) : null}
+          <div className="space-y-1 flex-1 min-w-0">
+            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+              Continue Learning
+            </p>
+            <p className="font-bold leading-snug truncate" style={{ fontFamily: 'var(--font-space)' }}>
+              {data.courseTitle}
+            </p>
+            <p className="text-xs text-muted-foreground truncate">
+              {data.sectionTitle && `${data.sectionTitle} · `}
+              {data.lessonTitle}
+            </p>
+            {minutes > 0 && (
+              <p className="text-xs text-brand">{minutes}m watched</p>
+            )}
+          </div>
         </div>
         <button
           onClick={() => router.push(`/learn/${data.courseId}/${data.lessonId}`)}

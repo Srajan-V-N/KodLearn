@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BookOpen, ArrowRight, Clock } from 'lucide-react';
 import apiClient from '@/lib/axios';
+import { getCategoryGradient } from '@/lib/utils';
 import type { ApiResponse, Enrollment } from '@/types';
 
 export function EnrolledCoursesCard() {
@@ -47,7 +49,7 @@ export function EnrolledCoursesCard() {
             You haven&apos;t enrolled in any courses yet.
           </p>
           <Link
-            href="/#courses"
+            href="/courses"
             className="inline-flex items-center gap-1 text-brand text-sm font-medium hover:underline"
           >
             Browse courses <ArrowRight className="w-3 h-3" />
@@ -57,23 +59,47 @@ export function EnrolledCoursesCard() {
         <div className="space-y-4">
           {enrollments.map((e) => (
             <div key={e.id} className="space-y-1">
-              <div className="flex items-start justify-between gap-2">
-                <p className="text-sm font-medium leading-snug">{e.course.title}</p>
-                <span className="text-xs text-muted-foreground whitespace-nowrap">
-                  {Math.round(e.progress)}%
-                </span>
-              </div>
-              <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-brand rounded-full transition-all"
-                  style={{ width: `${e.progress}%` }}
-                />
-              </div>
-              <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                <Clock className="w-3 h-3" />
-                <span>{e.course.duration_hours}h</span>
-                <span className="mx-1">·</span>
-                <span>{e.course.instructor}</span>
+              <div className="flex items-start gap-3">
+                {e.course.thumbnail_url ? (
+                  <div className="relative w-10 h-8 rounded overflow-hidden flex-shrink-0">
+                    <Image
+                      src={e.course.thumbnail_url}
+                      alt={e.course.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className={`w-10 h-8 rounded flex-shrink-0 bg-gradient-to-br ${getCategoryGradient(
+                      e.course.category,
+                    )} flex items-center justify-center`}
+                  >
+                    <span className="text-xs font-bold text-white/70">
+                      {e.course.title.charAt(0)}
+                    </span>
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="text-sm font-medium leading-snug">{e.course.title}</p>
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">
+                      {Math.round(e.progress)}%
+                    </span>
+                  </div>
+                  <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden mt-1">
+                    <div
+                      className="h-full bg-brand rounded-full transition-all"
+                      style={{ width: `${e.progress}%` }}
+                    />
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
+                    <Clock className="w-3 h-3" />
+                    <span>{e.course.duration_hours}h</span>
+                    <span className="mx-1">·</span>
+                    <span>{e.course.instructor}</span>
+                  </div>
+                </div>
               </div>
             </div>
           ))}

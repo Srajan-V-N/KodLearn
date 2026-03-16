@@ -22,6 +22,33 @@ export interface Course {
   thumbnail_url?: string;
   is_published: boolean;
   createdAt: string;
+  avg_rating?: number | null;
+  rating_count?: number;
+}
+
+export interface CoursesResponse {
+  data: Course[];
+  total: number;
+  page: number;
+  totalPages: number;
+}
+
+export interface Review {
+  id: string;
+  userId: string;
+  courseId: string;
+  username: string;
+  rating: number;
+  comment: string | null;
+  createdAt: string;
+}
+
+export interface WishlistItem {
+  id: string;
+  userId: string;
+  courseId: string;
+  course: Course;
+  createdAt: string;
 }
 
 export interface Enrollment {

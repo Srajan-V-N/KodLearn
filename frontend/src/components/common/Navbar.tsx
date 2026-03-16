@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { LogOut, User, Award, LayoutDashboard, BookOpen, GraduationCap } from 'lucide-react';
+import { LogOut, User, Award, LayoutDashboard, BookOpen, GraduationCap, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
@@ -15,6 +15,7 @@ const navLinks = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/courses', label: 'Courses', icon: BookOpen },
   { href: '/my-learning', label: 'My Learning', icon: GraduationCap },
+  { href: '/wishlist', label: 'Wishlist', icon: Heart },
 ];
 
 export function Navbar() {
