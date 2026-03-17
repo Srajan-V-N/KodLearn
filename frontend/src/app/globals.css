@@ -5,7 +5,7 @@
 @layer base {
   :root {
     /* ShadCN HSL vars — light */
-    --background: 220 10% 96%;
+    --background: 240 5% 96.1%;   /* ≈ #f5f5f7 */
     --foreground: 240 10% 3.9%;
     --card: 0 0% 98.5%;
     --card-foreground: 240 10% 3.9%;
@@ -28,9 +28,9 @@
 
     /* Glassmorphism tokens — light */
     --glass-bg: transparent;
-    --glass-border: rgba(0, 0, 0, 0.06);
+    --glass-border: transparent;
     --glass-blur: 20px;
-    --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --glass-shadow: none;
   }
 
   .dark {

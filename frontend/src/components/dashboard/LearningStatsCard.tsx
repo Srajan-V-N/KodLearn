@@ -62,7 +62,7 @@ export function LearningStatsCard() {
   ];
 
   return (
-    <div className="glass-card rounded-2xl p-6 space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-[3px] transition-all duration-300">
+    <div className="glass-card rounded-2xl p-6 space-y-4 dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-[3px] transition-all duration-300">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center">
           <TrendingUp className="w-5 h-5 text-muted-foreground" />
@@ -79,7 +79,7 @@ export function LearningStatsCard() {
         {items.map(({ icon: Icon, label, value, bgClass, iconClass, numberClass }) => (
           <div
             key={label}
-            className={`rounded-xl ${bgClass} p-3 text-center space-y-1 shadow-[0_2px_8px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 transition-all duration-200`}
+            className={`rounded-xl ${bgClass} p-3 text-center space-y-1 dark:shadow-[0_2px_8px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 transition-all duration-200`}
           >
             {isLoading ? (
               <div className="animate-pulse h-6 bg-muted rounded mx-auto w-8" />

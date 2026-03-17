@@ -27,7 +27,7 @@ export function EnrolledCoursesCard() {
   };
 
   return (
-    <div className="glass-card rounded-2xl p-6 space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-[3px] transition-all duration-300">
+    <div className="glass-card rounded-2xl p-6 space-y-4 dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-[3px] transition-all duration-300">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-muted border border-white/[0.06] flex items-center justify-center">
           <BookOpen className="w-5 h-5 text-muted-foreground" />

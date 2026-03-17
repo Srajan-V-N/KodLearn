@@ -61,7 +61,7 @@ export function CourseCard({
   const isEnrolled = Boolean(enrollment);
 
   return (
-    <div className="group rounded-2xl border border-border hover:border-brand/40 hover:-translate-y-1 active:scale-[0.98] transition-all duration-200 flex flex-col overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
+    <div className="group rounded-2xl border border-border bg-card hover:border-brand/40 hover:-translate-y-1 active:scale-[0.98] transition-all duration-200 flex flex-col overflow-hidden h-full shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
       {/* Thumbnail */}
       <div className="relative">
         {course.thumbnail_url ? (
