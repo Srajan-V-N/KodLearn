@@ -1,13 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a0a0a"/>
+      <stop offset="100%" stop-color="#2d1515"/>
+    </linearGradient>
+    <linearGradient id="shield-fill" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ef4444"/>
       <stop offset="100%" stop-color="#b91c1c"/>
     </linearGradient>
+    <linearGradient id="shield-border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fca5a5"/>
+      <stop offset="100%" stop-color="#ef4444"/>
+    </linearGradient>
   </defs>
-  <rect width="400" height="225" fill="url(#bg)"/>
-  <circle cx="340" cy="45" r="70" fill="rgba(255,255,255,0.08)"/>
-  <circle cx="60" cy="180" r="50" fill="rgba(255,255,255,0.06)"/>
-  <text x="200" y="105" font-family="system-ui,sans-serif" font-size="28" font-weight="700" fill="white" text-anchor="middle">Cybersecurity</text>
-  <text x="200" y="135" font-family="system-ui,sans-serif" font-size="14" font-weight="400" fill="rgba(255,255,255,0.8)" text-anchor="middle">KodLearn Course</text>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <!-- Grid dots pattern -->
+  <circle cx="100" cy="100" r="1.5" fill="rgba(239,68,68,0.2)"/>
+  <circle cx="200" cy="100" r="1.5" fill="rgba(239,68,68,0.2)"/>
+  <circle cx="300" cy="100" r="1.5" fill="rgba(239,68,68,0.2)"/>
+  <circle cx="500" cy="100" r="1.5" fill="rgba(239,68,68,0.2)"/>
+  <circle cx="600" cy="100" r="1.5" fill="rgba(239,68,68,0.2)"/>
+  <circle cx="700" cy="100" r="1.5" fill="rgba(239,68,68,0.2)"/>
+  <circle cx="100" cy="200" r="1.5" fill="rgba(239,68,68,0.15)"/>
+  <circle cx="700" cy="200" r="1.5" fill="rgba(239,68,68,0.15)"/>
+  <circle cx="100" cy="350" r="1.5" fill="rgba(239,68,68,0.15)"/>
+  <circle cx="700" cy="350" r="1.5" fill="rgba(239,68,68,0.15)"/>
+  <!-- Glow -->
+  <circle cx="400" cy="210" r="180" fill="rgba(185,28,28,0.15)"/>
+  <!-- Shield shape -->
+  <!-- Shield outline -->
+  <path d="M400 75 L560 140 L560 240 Q560 330 400 385 Q240 330 240 240 L240 140 Z"
+    fill="rgba(239,68,68,0.15)" stroke="url(#shield-border)" stroke-width="3"/>
+  <!-- Shield fill layers -->
+  <path d="M400 100 L540 155 L540 245 Q540 320 400 368 Q260 320 260 245 L260 155 Z"
+    fill="rgba(239,68,68,0.2)"/>
+  <!-- Lock icon inside shield -->
+  <!-- Lock body -->
+  <rect x="368" y="230" width="64" height="52" rx="8" fill="url(#shield-fill)" opacity="0.9"/>
+  <!-- Lock shackle -->
+  <path d="M378 230 L378 208 Q378 185 400 185 Q422 185 422 208 L422 230"
+    fill="none" stroke="url(#shield-border)" stroke-width="5" stroke-linecap="round"/>
+  <!-- Lock keyhole -->
+  <circle cx="400" cy="254" r="9" fill="rgba(0,0,0,0.4)"/>
+  <rect x="396" y="254" width="8" height="14" rx="3" fill="rgba(0,0,0,0.4)"/>
+  <!-- Shield highlight -->
+  <path d="M400 100 L460 130 L460 195 Q460 220 430 245 L400 258" fill="rgba(255,255,255,0.06)"/>
+  <!-- Hexagon ring decoration -->
+  <circle cx="400" cy="225" r="130" fill="none" stroke="rgba(239,68,68,0.2)" stroke-width="1" stroke-dasharray="8,6"/>
+  <circle cx="400" cy="225" r="160" fill="none" stroke="rgba(239,68,68,0.1)" stroke-width="1" stroke-dasharray="4,8"/>
+  <!-- Label -->
+  <text x="400" y="418" font-family="system-ui,sans-serif" font-size="20" font-weight="600" fill="rgba(255,255,255,0.45)" text-anchor="middle" letter-spacing="4">CYBERSECURITY</text>
+  <rect x="320" y="430" width="160" height="3" rx="2" fill="url(#shield-fill)" opacity="0.8"/>
 </svg>

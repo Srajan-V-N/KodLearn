@@ -1,13 +1,64 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f97316"/>
-      <stop offset="100%" stop-color="#c2410c"/>
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#6366f1"/>
     </linearGradient>
   </defs>
-  <rect width="400" height="225" fill="url(#bg)"/>
-  <circle cx="340" cy="45" r="70" fill="rgba(255,255,255,0.08)"/>
-  <circle cx="60" cy="180" r="50" fill="rgba(255,255,255,0.06)"/>
-  <text x="200" y="105" font-family="system-ui,sans-serif" font-size="28" font-weight="700" fill="white" text-anchor="middle">Artificial Intelligence</text>
-  <text x="200" y="135" font-family="system-ui,sans-serif" font-size="14" font-weight="400" fill="rgba(255,255,255,0.8)" text-anchor="middle">KodLearn Course</text>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <circle cx="400" cy="225" r="220" fill="rgba(99,102,241,0.08)"/>
+  <!-- Neural network nodes — input layer -->
+  <circle cx="160" cy="130" r="18" fill="rgba(99,102,241,0.3)" stroke="rgba(129,140,248,0.7)" stroke-width="2"/>
+  <circle cx="160" cy="225" r="18" fill="rgba(99,102,241,0.3)" stroke="rgba(129,140,248,0.7)" stroke-width="2"/>
+  <circle cx="160" cy="320" r="18" fill="rgba(99,102,241,0.3)" stroke="rgba(129,140,248,0.7)" stroke-width="2"/>
+  <!-- Hidden layer 1 -->
+  <circle cx="320" cy="100" r="18" fill="rgba(99,102,241,0.4)" stroke="rgba(129,140,248,0.8)" stroke-width="2"/>
+  <circle cx="320" cy="185" r="18" fill="rgba(99,102,241,0.4)" stroke="rgba(129,140,248,0.8)" stroke-width="2"/>
+  <circle cx="320" cy="270" r="18" fill="rgba(99,102,241,0.4)" stroke="rgba(129,140,248,0.8)" stroke-width="2"/>
+  <circle cx="320" cy="355" r="18" fill="rgba(99,102,241,0.4)" stroke="rgba(129,140,248,0.8)" stroke-width="2"/>
+  <!-- Hidden layer 2 -->
+  <circle cx="480" cy="100" r="18" fill="rgba(99,102,241,0.5)" stroke="rgba(129,140,248,0.9)" stroke-width="2"/>
+  <circle cx="480" cy="185" r="18" fill="rgba(99,102,241,0.5)" stroke="rgba(129,140,248,0.9)" stroke-width="2"/>
+  <circle cx="480" cy="270" r="18" fill="rgba(99,102,241,0.5)" stroke="rgba(129,140,248,0.9)" stroke-width="2"/>
+  <circle cx="480" cy="355" r="18" fill="rgba(99,102,241,0.5)" stroke="rgba(129,140,248,0.9)" stroke-width="2"/>
+  <!-- Output layer -->
+  <circle cx="640" cy="155" r="18" fill="rgba(99,102,241,0.7)" stroke="#818cf8" stroke-width="2.5"/>
+  <circle cx="640" cy="225" r="22" fill="url(#blue)" stroke="white" stroke-width="2.5"/>
+  <circle cx="640" cy="295" r="18" fill="rgba(99,102,241,0.7)" stroke="#818cf8" stroke-width="2.5"/>
+  <!-- Connections input→h1 -->
+  <line x1="178" y1="130" x2="302" y2="100" stroke="rgba(129,140,248,0.2)" stroke-width="1"/>
+  <line x1="178" y1="130" x2="302" y2="185" stroke="rgba(129,140,248,0.2)" stroke-width="1"/>
+  <line x1="178" y1="130" x2="302" y2="270" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+  <line x1="178" y1="225" x2="302" y2="100" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+  <line x1="178" y1="225" x2="302" y2="185" stroke="rgba(129,140,248,0.3)" stroke-width="1.5"/>
+  <line x1="178" y1="225" x2="302" y2="270" stroke="rgba(129,140,248,0.2)" stroke-width="1"/>
+  <line x1="178" y1="225" x2="302" y2="355" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+  <line x1="178" y1="320" x2="302" y2="185" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+  <line x1="178" y1="320" x2="302" y2="270" stroke="rgba(129,140,248,0.2)" stroke-width="1"/>
+  <line x1="178" y1="320" x2="302" y2="355" stroke="rgba(129,140,248,0.2)" stroke-width="1"/>
+  <!-- Connections h1→h2 -->
+  <line x1="338" y1="100" x2="462" y2="100" stroke="rgba(129,140,248,0.2)" stroke-width="1"/>
+  <line x1="338" y1="100" x2="462" y2="185" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+  <line x1="338" y1="185" x2="462" y2="100" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+  <line x1="338" y1="185" x2="462" y2="185" stroke="rgba(129,140,248,0.3)" stroke-width="1.5"/>
+  <line x1="338" y1="185" x2="462" y2="270" stroke="rgba(129,140,248,0.2)" stroke-width="1"/>
+  <line x1="338" y1="270" x2="462" y2="185" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+  <line x1="338" y1="270" x2="462" y2="270" stroke="rgba(129,140,248,0.25)" stroke-width="1"/>
+  <line x1="338" y1="270" x2="462" y2="355" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+  <line x1="338" y1="355" x2="462" y2="270" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+  <line x1="338" y1="355" x2="462" y2="355" stroke="rgba(129,140,248,0.2)" stroke-width="1"/>
+  <!-- Connections h2→output -->
+  <line x1="498" y1="100" x2="622" y2="155" stroke="rgba(129,140,248,0.25)" stroke-width="1"/>
+  <line x1="498" y1="185" x2="622" y2="155" stroke="rgba(129,140,248,0.2)" stroke-width="1"/>
+  <line x1="498" y1="185" x2="622" y2="225" stroke="rgba(129,140,248,0.35)" stroke-width="2"/>
+  <line x1="498" y1="270" x2="622" y2="225" stroke="rgba(129,140,248,0.35)" stroke-width="2"/>
+  <line x1="498" y1="270" x2="622" y2="295" stroke="rgba(129,140,248,0.25)" stroke-width="1"/>
+  <line x1="498" y1="355" x2="622" y2="295" stroke="rgba(129,140,248,0.2)" stroke-width="1"/>
+  <!-- Label -->
+  <text x="400" y="418" font-family="system-ui,sans-serif" font-size="18" font-weight="600" fill="rgba(255,255,255,0.45)" text-anchor="middle" letter-spacing="3">ARTIFICIAL INTELLIGENCE</text>
+  <rect x="300" y="430" width="200" height="3" rx="2" fill="url(#blue)" opacity="0.8"/>
 </svg>

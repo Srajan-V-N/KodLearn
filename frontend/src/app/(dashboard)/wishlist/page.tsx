@@ -19,7 +19,7 @@ function CourseThumbnail({ item }: { item: WishlistItem }) {
           src={course.thumbnail_url}
           alt={course.title}
           fill
-          className="object-cover"
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
@@ -121,7 +121,7 @@ export default function WishlistPage() {
               return (
                 <div
                   key={item.id}
-                  className="rounded-2xl border border-border bg-card hover:border-brand/40 transition-colors flex flex-col overflow-hidden"
+                  className="group rounded-2xl border border-border bg-card hover:border-brand/40 hover:-translate-y-1 transition-all duration-200 flex flex-col overflow-hidden"
                 >
                   <div className="relative">
                     <CourseThumbnail item={item} />
@@ -163,7 +163,7 @@ export default function WishlistPage() {
                     <button
                       onClick={() => handleEnroll(course.id)}
                       disabled={enrolling === course.id}
-                      className="w-full text-sm font-medium py-2 rounded-xl bg-brand text-zinc-900 hover:bg-brand/90 transition-colors disabled:opacity-50"
+                      className="w-full text-sm font-medium py-2 rounded-xl bg-brand text-zinc-900 hover:bg-brand/90 active:scale-95 transition-all disabled:opacity-50"
                     >
                       {enrolling === course.id ? 'Enrolling…' : 'Enroll Now'}
                     </button>

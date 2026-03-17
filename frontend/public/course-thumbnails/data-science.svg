@@ -1,13 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#22c55e"/>
-      <stop offset="100%" stop-color="#15803d"/>
+      <stop offset="0%" stop-color="#042f2e"/>
+      <stop offset="100%" stop-color="#0d4f4c"/>
+    </linearGradient>
+    <linearGradient id="bar1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2dd4bf"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </linearGradient>
+    <linearGradient id="bar2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#5eead4"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
     </linearGradient>
   </defs>
-  <rect width="400" height="225" fill="url(#bg)"/>
-  <circle cx="340" cy="45" r="70" fill="rgba(255,255,255,0.08)"/>
-  <circle cx="60" cy="180" r="50" fill="rgba(255,255,255,0.06)"/>
-  <text x="200" y="105" font-family="system-ui,sans-serif" font-size="28" font-weight="700" fill="white" text-anchor="middle">Data Science</text>
-  <text x="200" y="135" font-family="system-ui,sans-serif" font-size="14" font-weight="400" fill="rgba(255,255,255,0.8)" text-anchor="middle">KodLearn Course</text>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <circle cx="400" cy="250" r="180" fill="rgba(13,148,136,0.12)"/>
+  <!-- Chart axes -->
+  <line x1="140" y1="340" x2="660" y2="340" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+  <line x1="140" y1="340" x2="140" y2="80" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+  <!-- Horizontal grid lines -->
+  <line x1="140" y1="260" x2="650" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <line x1="140" y1="180" x2="650" y2="180" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <line x1="140" y1="100" x2="650" y2="100" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <!-- Bar chart bars -->
+  <rect x="175" y="260" width="65" height="80" rx="4" fill="url(#bar1)" opacity="0.7"/>
+  <rect x="265" y="200" width="65" height="140" rx="4" fill="url(#bar2)" opacity="0.85"/>
+  <rect x="355" y="140" width="65" height="200" rx="4" fill="url(#bar1)" opacity="0.9"/>
+  <rect x="445" y="100" width="65" height="240" rx="4" fill="url(#bar2)"/>
+  <rect x="535" y="160" width="65" height="180" rx="4" fill="url(#bar1)" opacity="0.8"/>
+  <!-- Trend line -->
+  <polyline points="207,260 297,200 387,140 477,100 567,160" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
+  <!-- Dots on trend line -->
+  <circle cx="207" cy="260" r="5" fill="white" opacity="0.8"/>
+  <circle cx="297" cy="200" r="5" fill="white" opacity="0.8"/>
+  <circle cx="387" cy="140" r="5" fill="white" opacity="0.8"/>
+  <circle cx="477" cy="100" r="7" fill="#2dd4bf"/>
+  <circle cx="567" cy="160" r="5" fill="white" opacity="0.8"/>
+  <!-- Label -->
+  <text x="400" y="400" font-family="system-ui,sans-serif" font-size="20" font-weight="600" fill="rgba(255,255,255,0.45)" text-anchor="middle" letter-spacing="4">DATA SCIENCE</text>
+  <rect x="340" y="414" width="120" height="3" rx="2" fill="url(#bar2)" opacity="0.8"/>
 </svg>

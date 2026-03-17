@@ -81,6 +81,12 @@
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
   }
+  .course-card {
+    @apply rounded-xl border border-border bg-card hover:border-brand/40 hover:-translate-y-1 transition-all duration-200 shadow-sm flex flex-col overflow-hidden;
+  }
+  .btn-primary {
+    @apply active:scale-95 transition-transform;
+  }
 }
 
 /* Prose overrides for Promptly AI messages */

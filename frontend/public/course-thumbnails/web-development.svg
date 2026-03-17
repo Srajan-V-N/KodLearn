@@ -1,13 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e0a3c"/>
+      <stop offset="100%" stop-color="#3b1278"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#a855f7"/>
-      <stop offset="100%" stop-color="#7e22ce"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
     </linearGradient>
   </defs>
-  <rect width="400" height="225" fill="url(#bg)"/>
-  <circle cx="340" cy="45" r="70" fill="rgba(255,255,255,0.08)"/>
-  <circle cx="60" cy="180" r="50" fill="rgba(255,255,255,0.06)"/>
-  <text x="200" y="105" font-family="system-ui,sans-serif" font-size="28" font-weight="700" fill="white" text-anchor="middle">Web Development</text>
-  <text x="200" y="135" font-family="system-ui,sans-serif" font-size="14" font-weight="400" fill="rgba(255,255,255,0.8)" text-anchor="middle">KodLearn Course</text>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <circle cx="400" cy="200" r="200" fill="rgba(124,58,237,0.15)"/>
+  <!-- Browser window frame -->
+  <rect x="140" y="80" width="520" height="310" rx="12" fill="rgba(255,255,255,0.08)" stroke="rgba(168,85,247,0.5)" stroke-width="2"/>
+  <!-- Title bar -->
+  <rect x="140" y="80" width="520" height="44" rx="12" fill="rgba(168,85,247,0.25)"/>
+  <rect x="140" y="108" width="520" height="16" fill="rgba(168,85,247,0.25)"/>
+  <!-- Traffic lights -->
+  <circle cx="174" cy="102" r="8" fill="#ff5f57"/>
+  <circle cx="200" cy="102" r="8" fill="#febc2e"/>
+  <circle cx="226" cy="102" r="8" fill="#28c840"/>
+  <!-- URL bar -->
+  <rect x="248" y="91" width="340" height="22" rx="11" fill="rgba(255,255,255,0.1)"/>
+  <text x="418" y="106" font-family="'Courier New',monospace" font-size="11" fill="rgba(255,255,255,0.5)" text-anchor="middle">https://kodlearn.dev</text>
+  <!-- Code lines in browser -->
+  <rect x="164" y="145" width="200" height="10" rx="5" fill="rgba(168,85,247,0.5)"/>
+  <rect x="164" y="165" width="280" height="10" rx="5" fill="rgba(255,255,255,0.2)"/>
+  <rect x="164" y="185" width="240" height="10" rx="5" fill="rgba(255,255,255,0.15)"/>
+  <rect x="164" y="215" width="180" height="10" rx="5" fill="rgba(168,85,247,0.4)"/>
+  <rect x="164" y="235" width="260" height="10" rx="5" fill="rgba(255,255,255,0.15)"/>
+  <rect x="164" y="255" width="220" height="10" rx="5" fill="rgba(255,255,255,0.1)"/>
+  <!-- Side panel -->
+  <rect x="420" y="145" width="210" height="215" rx="8" fill="rgba(255,255,255,0.05)" stroke="rgba(168,85,247,0.2)" stroke-width="1"/>
+  <rect x="436" y="165" width="178" height="8" rx="4" fill="rgba(168,85,247,0.3)"/>
+  <rect x="436" y="185" width="140" height="8" rx="4" fill="rgba(255,255,255,0.15)"/>
+  <rect x="436" y="205" width="160" height="8" rx="4" fill="rgba(255,255,255,0.1)"/>
+  <rect x="436" y="245" width="178" height="50" rx="6" fill="rgba(168,85,247,0.2)"/>
+  <!-- Label -->
+  <text x="400" y="418" font-family="system-ui,sans-serif" font-size="20" font-weight="600" fill="rgba(255,255,255,0.45)" text-anchor="middle" letter-spacing="3">WEB DEVELOPMENT</text>
+  <rect x="330" y="430" width="140" height="3" rx="2" fill="url(#purple)" opacity="0.7"/>
 </svg>

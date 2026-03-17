@@ -173,11 +173,11 @@ function CourseSection({
         {title}
         <span className="ml-2 text-sm font-normal text-muted-foreground">({courses.length})</span>
       </h2>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {courses.map((e) => (
           <div
             key={e.id}
-            className="glass-card rounded-2xl p-5 space-y-3 hover:border-brand/40 border border-border transition-colors"
+            className="bg-card rounded-2xl p-5 space-y-3 hover:border-brand/40 hover:-translate-y-1 active:scale-[0.98] border border-border transition-all duration-200"
           >
             <div className="flex gap-3 items-start">
               <CourseThumbnailSmall course={e.course} />
@@ -200,7 +200,7 @@ function CourseSection({
             </div>
             <button
               onClick={() => router.push(getResumeHref(e))}
-              className="w-full text-xs font-medium py-2 rounded-xl border border-brand text-brand hover:bg-brand/10 transition-colors"
+              className="w-full text-xs font-medium py-2 rounded-xl border border-brand text-brand hover:bg-brand/10 active:scale-95 transition-all"
             >
               {e.completed ? 'View Course' : e.progress > 0 ? 'Resume' : 'Start'}
             </button>

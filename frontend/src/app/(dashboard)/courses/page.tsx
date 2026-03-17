@@ -31,7 +31,7 @@ function CourseThumbnail({ course }: { course: Course }) {
           src={course.thumbnail_url}
           alt={course.title}
           fill
-          className="object-cover"
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
@@ -270,7 +270,7 @@ export default function CoursesPage() {
           </div>
         ) : (
           <>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {courses.map((course) => {
                 const enrollment = enrolledMap.get(course.id);
                 const isEnrolled = Boolean(enrollment);
@@ -279,7 +279,7 @@ export default function CoursesPage() {
                 return (
                   <div
                     key={course.id}
-                    className="rounded-2xl border border-border bg-card hover:border-brand/40 transition-colors flex flex-col overflow-hidden"
+                    className="group rounded-2xl border border-border bg-card hover:border-brand/40 hover:-translate-y-1 active:scale-[0.98] transition-all duration-200 flex flex-col overflow-hidden"
                   >
                     {/* Thumbnail */}
                     <div className="relative">
@@ -344,7 +344,7 @@ export default function CoursesPage() {
                           </div>
                           <button
                             onClick={() => router.push(`/courses/${course.id}`)}
-                            className="w-full text-sm font-medium py-2 rounded-xl border border-brand text-brand hover:bg-brand/10 transition-colors"
+                            className="w-full text-sm font-medium py-2 rounded-xl border border-brand text-brand hover:bg-brand/10 active:scale-95 transition-all"
                           >
                             Continue
                           </button>
@@ -353,7 +353,7 @@ export default function CoursesPage() {
                         <button
                           onClick={() => handleEnroll(course.id)}
                           disabled={enrolling === course.id}
-                          className="w-full text-sm font-medium py-2 rounded-xl bg-brand text-zinc-900 hover:bg-brand/90 transition-colors disabled:opacity-50"
+                          className="w-full text-sm font-medium py-2 rounded-xl bg-brand text-zinc-900 hover:bg-brand/90 active:scale-95 transition-all disabled:opacity-50"
                         >
                           {enrolling === course.id ? 'Enrolling…' : 'Enroll'}
                         </button>

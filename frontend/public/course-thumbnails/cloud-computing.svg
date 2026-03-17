@@ -1,13 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#06b6d4"/>
-      <stop offset="100%" stop-color="#0e7490"/>
+      <stop offset="0%" stop-color="#0c1a2e"/>
+      <stop offset="100%" stop-color="#1a3a5c"/>
+    </linearGradient>
+    <linearGradient id="cloud" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#93c5fd"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
     </linearGradient>
   </defs>
-  <rect width="400" height="225" fill="url(#bg)"/>
-  <circle cx="340" cy="45" r="70" fill="rgba(255,255,255,0.08)"/>
-  <circle cx="60" cy="180" r="50" fill="rgba(255,255,255,0.06)"/>
-  <text x="200" y="105" font-family="system-ui,sans-serif" font-size="28" font-weight="700" fill="white" text-anchor="middle">Cloud Computing</text>
-  <text x="200" y="135" font-family="system-ui,sans-serif" font-size="14" font-weight="400" fill="rgba(255,255,255,0.8)" text-anchor="middle">KodLearn Course</text>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <!-- Stars -->
+  <circle cx="100" cy="80" r="2" fill="rgba(255,255,255,0.4)"/>
+  <circle cx="200" cy="50" r="1.5" fill="rgba(255,255,255,0.35)"/>
+  <circle cx="650" cy="70" r="2" fill="rgba(255,255,255,0.4)"/>
+  <circle cx="720" cy="130" r="1.5" fill="rgba(255,255,255,0.3)"/>
+  <circle cx="550" cy="40" r="1" fill="rgba(255,255,255,0.35)"/>
+  <circle cx="80" cy="160" r="1.5" fill="rgba(255,255,255,0.3)"/>
+  <!-- Glow -->
+  <circle cx="400" cy="200" r="200" fill="rgba(59,130,246,0.1)"/>
+  <!-- Main cloud shape -->
+  <!-- Cloud body: combine circles to form cloud -->
+  <circle cx="350" cy="220" r="90" fill="url(#cloud)" opacity="0.9"/>
+  <circle cx="450" cy="220" r="90" fill="url(#cloud)" opacity="0.9"/>
+  <circle cx="310" cy="250" r="70" fill="url(#cloud)" opacity="0.9"/>
+  <circle cx="490" cy="250" r="70" fill="url(#cloud)" opacity="0.9"/>
+  <rect x="240" y="250" width="320" height="80" fill="url(#cloud)" opacity="0.9"/>
+  <!-- Cloud highlight -->
+  <ellipse cx="360" cy="195" rx="50" ry="25" fill="rgba(255,255,255,0.25)"/>
+  <!-- Upload arrow -->
+  <line x1="400" y1="320" x2="400" y2="380" stroke="rgba(255,255,255,0.6)" stroke-width="3" stroke-linecap="round"/>
+  <polyline points="380,345 400,325 420,345" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Small secondary clouds -->
+  <ellipse cx="180" cy="300" rx="55" ry="30" fill="rgba(96,165,250,0.3)" stroke="rgba(96,165,250,0.4)" stroke-width="1.5"/>
+  <ellipse cx="620" cy="290" rx="55" ry="30" fill="rgba(96,165,250,0.3)" stroke="rgba(96,165,250,0.4)" stroke-width="1.5"/>
+  <!-- Connection lines to small clouds -->
+  <line x1="250" y1="290" x2="300" y2="270" stroke="rgba(96,165,250,0.4)" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <line x1="550" y1="275" x2="580" y2="285" stroke="rgba(96,165,250,0.4)" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <!-- Label -->
+  <text x="400" y="418" font-family="system-ui,sans-serif" font-size="20" font-weight="600" fill="rgba(255,255,255,0.45)" text-anchor="middle" letter-spacing="3">CLOUD COMPUTING</text>
+  <rect x="320" y="430" width="160" height="3" rx="2" fill="url(#cloud)" opacity="0.8"/>
 </svg>

@@ -28,7 +28,7 @@ export function ContinueLearningCard() {
     return (
       <div className="glass-card rounded-2xl p-6 flex items-center justify-between gap-4">
         <div className="space-y-1">
-          <p className="font-semibold text-sm" style={{ fontFamily: 'var(--font-space)' }}>
+          <p className="text-xl font-semibold" style={{ fontFamily: 'var(--font-space)' }}>
             Start your learning journey
           </p>
           <p className="text-xs text-muted-foreground">
@@ -49,11 +49,11 @@ export function ContinueLearningCard() {
   const minutes = Math.floor(data.last_position_seconds / 60);
 
   return (
-    <div className="glass-card rounded-2xl p-6 border-l-4 border-l-brand">
+    <div className="glass-card rounded-2xl p-6 border-2 border-brand/30 bg-brand/5 shadow-md">
       <div className="flex items-start justify-between gap-4">
-        <div className="flex items-start gap-3 flex-1 min-w-0">
+        <div className="flex items-start gap-4 flex-1 min-w-0">
           {data.thumbnail_url ? (
-            <div className="relative w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
+            <div className="relative w-24 h-16 rounded-lg overflow-hidden flex-shrink-0">
               <Image
                 src={data.thumbnail_url}
                 alt={data.courseTitle}
@@ -66,7 +66,7 @@ export function ContinueLearningCard() {
             <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
               Continue Learning
             </p>
-            <p className="font-bold leading-snug truncate" style={{ fontFamily: 'var(--font-space)' }}>
+            <p className="text-lg font-bold leading-snug truncate" style={{ fontFamily: 'var(--font-space)' }}>
               {data.courseTitle}
             </p>
             <p className="text-xs text-muted-foreground truncate">
@@ -80,7 +80,7 @@ export function ContinueLearningCard() {
         </div>
         <button
           onClick={() => router.push(`/learn/${data.courseId}/${data.lessonId}`)}
-          className="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl bg-brand text-zinc-900 text-xs font-semibold hover:bg-brand/90 transition-colors"
+          className="flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand text-zinc-900 text-sm font-semibold hover:bg-brand/90 active:scale-95 transition-all"
         >
           <PlayCircle className="w-4 h-4" />
           Resume

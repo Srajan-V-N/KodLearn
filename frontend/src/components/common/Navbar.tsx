@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { LogOut, User, Award, LayoutDashboard, BookOpen, GraduationCap, Heart } from 'lucide-react';
+import { LogOut, User, Award, LayoutDashboard, BookOpen, GraduationCap, Heart, Bot } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
@@ -48,7 +48,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="glass-card border-b sticky top-0 z-50">
+    <nav className="bg-background border-b border-border fixed top-0 left-0 right-0 z-50">
       <div className="mx-auto px-6 max-w-7xl h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Logo />
@@ -75,6 +75,13 @@ export function Navbar() {
 
         <div className="flex items-center gap-4">
           <ThemeToggle />
+          <button
+            onClick={() => router.push('/promptly')}
+            className="w-9 h-9 rounded-full bg-muted border flex items-center justify-center text-muted-foreground hover:text-brand hover:border-brand transition-colors"
+            aria-label="Open AI assistant"
+          >
+            <Bot className="w-4 h-4" />
+          </button>
           <div className="relative" ref={dropdownRef}>
             <motion.button
               whileHover={{ scale: 1.05 }}

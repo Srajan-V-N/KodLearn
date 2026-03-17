@@ -1,13 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ec4899"/>
-      <stop offset="100%" stop-color="#be185d"/>
+      <stop offset="0%" stop-color="#2d0a3e"/>
+      <stop offset="100%" stop-color="#6b1060"/>
+    </linearGradient>
+    <linearGradient id="pink" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="magenta" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e879f9"/>
+      <stop offset="100%" stop-color="#c026d3"/>
     </linearGradient>
   </defs>
-  <rect width="400" height="225" fill="url(#bg)"/>
-  <circle cx="340" cy="45" r="70" fill="rgba(255,255,255,0.08)"/>
-  <circle cx="60" cy="180" r="50" fill="rgba(255,255,255,0.06)"/>
-  <text x="200" y="105" font-family="system-ui,sans-serif" font-size="28" font-weight="700" fill="white" text-anchor="middle">Design</text>
-  <text x="200" y="135" font-family="system-ui,sans-serif" font-size="14" font-weight="400" fill="rgba(255,255,255,0.8)" text-anchor="middle">KodLearn Course</text>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <circle cx="400" cy="210" r="180" fill="rgba(236,72,153,0.12)"/>
+  <circle cx="200" cy="100" r="80" fill="rgba(232,121,249,0.08)"/>
+  <!-- Bezier curve -->
+  <path d="M 160 320 C 260 120, 540 120, 640 320" fill="none" stroke="url(#pink)" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  <!-- Control point lines -->
+  <line x1="160" y1="320" x2="260" y2="120" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <line x1="640" y1="320" x2="540" y2="120" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <!-- Anchor points (squares rotated) -->
+  <rect x="148" y="308" width="24" height="24" rx="3" fill="url(#pink)" transform="rotate(45 160 320)"/>
+  <rect x="628" y="308" width="24" height="24" rx="3" fill="url(#pink)" transform="rotate(45 640 320)"/>
+  <!-- Control point handles (circles) -->
+  <circle cx="260" cy="120" r="9" fill="none" stroke="rgba(244,114,182,0.8)" stroke-width="2"/>
+  <circle cx="260" cy="120" r="3.5" fill="rgba(244,114,182,0.8)"/>
+  <circle cx="540" cy="120" r="9" fill="none" stroke="rgba(244,114,182,0.8)" stroke-width="2"/>
+  <circle cx="540" cy="120" r="3.5" fill="rgba(244,114,182,0.8)"/>
+  <!-- Pen nib at center -->
+  <g transform="translate(400,200)">
+    <polygon points="0,-48 20,18 0,8 -20,18" fill="url(#magenta)" opacity="0.9"/>
+    <polygon points="0,8 7,28 0,40 -7,28" fill="rgba(255,255,255,0.9)"/>
+    <rect x="-5" y="-48" width="10" height="22" rx="4" fill="rgba(255,255,255,0.3)"/>
+  </g>
+  <!-- Color swatches -->
+  <circle cx="300" cy="378" r="16" fill="#f472b6"/>
+  <circle cx="340" cy="378" r="16" fill="#e879f9"/>
+  <circle cx="380" cy="378" r="16" fill="#a855f7"/>
+  <circle cx="420" cy="378" r="16" fill="#ec4899"/>
+  <circle cx="460" cy="378" r="16" fill="#db2777"/>
+  <!-- Label -->
+  <text x="400" y="424" font-family="system-ui,sans-serif" font-size="20" font-weight="600" fill="rgba(255,255,255,0.45)" text-anchor="middle" letter-spacing="4">DESIGN</text>
+  <rect x="340" y="436" width="120" height="3" rx="2" fill="url(#pink)" opacity="0.8"/>
 </svg>
