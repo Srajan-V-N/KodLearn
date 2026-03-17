@@ -2,13 +2,11 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Clock, User, Star, Heart, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import { PageTransition } from '@/components/common/PageTransition';
 import apiClient from '@/lib/axios';
-import { getCategoryColor, getCategoryGradient, renderStars } from '@/lib/utils';
+import { CourseCard } from '@/components/courses/CourseCard';
 import type { ApiResponse, Course, CoursesResponse, Enrollment } from '@/types';
 
 const CATEGORIES = [
@@ -22,55 +20,6 @@ const CATEGORIES = [
   'Cybersecurity',
   'DevOps',
 ];
-
-function CourseThumbnail({ course }: { course: Course }) {
-  if (course.thumbnail_url) {
-    return (
-      <div className="relative w-full aspect-video rounded-t-2xl overflow-hidden">
-        <Image
-          src={course.thumbnail_url}
-          alt={course.title}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        />
-      </div>
-    );
-  }
-  const gradient = getCategoryGradient(course.category);
-  return (
-    <div
-      className={`w-full aspect-video rounded-t-2xl bg-gradient-to-br ${gradient} flex items-center justify-center`}
-    >
-      <span className="text-4xl font-bold text-white/70 select-none">
-        {course.title.charAt(0)}
-      </span>
-    </div>
-  );
-}
-
-function StarRating({ rating, count }: { rating: number; count: number }) {
-  const { full, half, empty } = renderStars(rating);
-  return (
-    <span className="flex items-center gap-1 text-xs">
-      <span className="flex">
-        {Array.from({ length: full }).map((_, i) => (
-          <Star key={`f${i}`} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-        ))}
-        {half && (
-          <span className="relative w-3 h-3">
-            <Star className="w-3 h-3 text-yellow-400 absolute" />
-            <Star className="w-3 h-3 fill-yellow-400 text-yellow-400 absolute" style={{ clipPath: 'inset(0 50% 0 0)' }} />
-          </span>
-        )}
-        {Array.from({ length: empty }).map((_, i) => (
-          <Star key={`e${i}`} className="w-3 h-3 text-muted-foreground" />
-        ))}
-      </span>
-      <span className="text-muted-foreground">{rating.toFixed(1)} ({count})</span>
-    </span>
-  );
-}
 
 export default function CoursesPage() {
   const { isAuthenticated, _hasHydrated } = useAuthStore();
@@ -271,97 +220,18 @@ export default function CoursesPage() {
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {courses.map((course) => {
-                const enrollment = enrolledMap.get(course.id);
-                const isEnrolled = Boolean(enrollment);
-                const isWishlisted = wishlistIds.has(course.id);
-
-                return (
-                  <div
-                    key={course.id}
-                    className="group rounded-2xl border border-border bg-card hover:border-brand/40 hover:-translate-y-1 active:scale-[0.98] transition-all duration-200 flex flex-col overflow-hidden"
-                  >
-                    {/* Thumbnail */}
-                    <div className="relative">
-                      <CourseThumbnail course={course} />
-                      <button
-                        onClick={(e) => toggleWishlist(course.id, e)}
-                        className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center hover:bg-black/70 transition-colors"
-                        aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-                      >
-                        <Heart
-                          className={`w-4 h-4 ${
-                            isWishlisted ? 'fill-red-500 text-red-500' : 'text-white'
-                          }`}
-                        />
-                      </button>
-                    </div>
-
-                    <div className="p-5 space-y-3 flex flex-col flex-1">
-                      <div className="space-y-1.5 flex-1">
-                        <span
-                          className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full ${getCategoryColor(
-                            course.category,
-                          )}`}
-                        >
-                          {course.category}
-                        </span>
-                        <h3 className="font-semibold leading-snug">
-                          <Link
-                            href={`/courses/${course.id}`}
-                            className="hover:text-brand transition-colors"
-                          >
-                            {course.title}
-                          </Link>
-                        </h3>
-                        {course.avg_rating != null && course.rating_count! > 0 && (
-                          <StarRating rating={course.avg_rating} count={course.rating_count!} />
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-4 text-xs text-muted-foreground border-t border-border pt-2">
-                        <span className="flex items-center gap-1">
-                          <User className="w-3 h-3" />
-                          {course.instructor}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          {course.duration_hours}h
-                        </span>
-                      </div>
-
-                      {isEnrolled && enrollment ? (
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-xs text-muted-foreground">
-                            <span>Progress</span>
-                            <span>{Math.round(enrollment.progress)}%</span>
-                          </div>
-                          <div className="w-full bg-muted rounded-full h-1.5">
-                            <div
-                              className="bg-brand h-1.5 rounded-full transition-all"
-                              style={{ width: `${enrollment.progress}%` }}
-                            />
-                          </div>
-                          <button
-                            onClick={() => router.push(`/courses/${course.id}`)}
-                            className="w-full text-sm font-medium py-2 rounded-xl border border-brand text-brand hover:bg-brand/10 active:scale-95 transition-all"
-                          >
-                            Continue
-                          </button>
-                        </div>
-                      ) : (
-                        <button
-                          onClick={() => handleEnroll(course.id)}
-                          disabled={enrolling === course.id}
-                          className="w-full text-sm font-medium py-2 rounded-xl bg-brand text-zinc-900 hover:bg-brand/90 active:scale-95 transition-all disabled:opacity-50"
-                        >
-                          {enrolling === course.id ? 'Enrolling…' : 'Enroll'}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+              {courses.map((course) => (
+                <CourseCard
+                  key={course.id}
+                  course={course}
+                  enrollment={enrolledMap.get(course.id)}
+                  isWishlisted={wishlistIds.has(course.id)}
+                  onWishlist={toggleWishlist}
+                  onEnroll={handleEnroll}
+                  enrolling={enrolling === course.id}
+                  showWishlist
+                />
+              ))}
             </div>
 
             {/* Pagination */}

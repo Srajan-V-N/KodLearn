@@ -2,33 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { PlayCircle, BookOpen } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import { PageTransition } from '@/components/common/PageTransition';
 import apiClient from '@/lib/axios';
-import { getCategoryGradient } from '@/lib/utils';
+import { CourseCard } from '@/components/courses/CourseCard';
 import type { Enrollment, ContinueLearning } from '@/types';
-
-function CourseThumbnailSmall({ course }: { course: Enrollment['course'] }) {
-  if (course.thumbnail_url) {
-    return (
-      <div className="relative w-16 h-12 rounded-lg overflow-hidden flex-shrink-0">
-        <Image src={course.thumbnail_url} alt={course.title} fill className="object-cover" />
-      </div>
-    );
-  }
-  const gradient = getCategoryGradient(course.category);
-  return (
-    <div
-      className={`w-16 h-12 rounded-lg flex-shrink-0 bg-gradient-to-br ${gradient} flex items-center justify-center`}
-    >
-      <span className="text-lg font-bold text-white/70 select-none">
-        {course.title.charAt(0)}
-      </span>
-    </div>
-  );
-}
 
 export default function MyLearningPage() {
   const { isAuthenticated, _hasHydrated } = useAuthStore();
@@ -107,36 +86,24 @@ export default function MyLearningPage() {
             ))}
           </div>
         ) : enrollments.length === 0 ? (
-          <div className="text-center py-16 space-y-3">
-            <BookOpen className="w-12 h-12 text-muted-foreground mx-auto" />
-            <p className="text-muted-foreground">You haven&apos;t enrolled in any courses yet.</p>
+          <div className="text-center py-16 space-y-4">
+            <BookOpen className="w-16 h-16 text-brand/30 mx-auto" />
+            <div>
+              <p className="font-semibold text-lg">No courses yet</p>
+              <p className="text-muted-foreground text-sm mt-1">Start learning something new today and track your progress here.</p>
+            </div>
             <button
               onClick={() => router.push('/courses')}
-              className="px-6 py-2.5 rounded-xl bg-brand text-zinc-900 font-semibold text-sm hover:bg-brand/90 transition-colors"
+              className="px-6 py-2.5 rounded-xl bg-brand text-zinc-900 font-semibold text-sm hover:brightness-110 active:scale-[0.96] transition-all"
             >
               Browse Courses
             </button>
           </div>
         ) : (
           <>
-            <CourseSection
-              title="In Progress"
-              courses={active}
-              router={router}
-              continueLearning={continueLearning}
-            />
-            <CourseSection
-              title="Not Started"
-              courses={notStarted}
-              router={router}
-              continueLearning={continueLearning}
-            />
-            <CourseSection
-              title="Completed"
-              courses={completed}
-              router={router}
-              continueLearning={continueLearning}
-            />
+            <CourseSection title="In Progress" courses={active} />
+            <CourseSection title="Not Started" courses={notStarted} />
+            <CourseSection title="Completed" courses={completed} />
           </>
         )}
       </div>
@@ -147,25 +114,11 @@ export default function MyLearningPage() {
 function CourseSection({
   title,
   courses,
-  router,
-  continueLearning,
 }: {
   title: string;
   courses: Enrollment[];
-  router: ReturnType<typeof useRouter>;
-  continueLearning: ContinueLearning | null;
 }) {
   if (courses.length === 0) return null;
-
-  function getResumeHref(e: Enrollment): string {
-    if (
-      continueLearning &&
-      continueLearning.courseId === e.courseId
-    ) {
-      return `/learn/${e.courseId}/${continueLearning.lessonId}`;
-    }
-    return `/courses/${e.courseId}`;
-  }
 
   return (
     <div className="space-y-4">
@@ -175,36 +128,7 @@ function CourseSection({
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {courses.map((e) => (
-          <div
-            key={e.id}
-            className="bg-card rounded-2xl p-5 space-y-3 hover:border-brand/40 hover:-translate-y-1 active:scale-[0.98] border border-border transition-all duration-200"
-          >
-            <div className="flex gap-3 items-start">
-              <CourseThumbnailSmall course={e.course} />
-              <div className="min-w-0 flex-1">
-                <p className="font-semibold text-sm leading-snug">{e.course.title}</p>
-                <p className="text-xs text-muted-foreground mt-1">{e.course.instructor}</p>
-              </div>
-            </div>
-            <div className="space-y-1">
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Progress</span>
-                <span>{Math.round(e.progress)}%</span>
-              </div>
-              <div className="w-full bg-muted rounded-full h-1.5">
-                <div
-                  className="bg-brand h-1.5 rounded-full transition-all"
-                  style={{ width: `${e.progress}%` }}
-                />
-              </div>
-            </div>
-            <button
-              onClick={() => router.push(getResumeHref(e))}
-              className="w-full text-xs font-medium py-2 rounded-xl border border-brand text-brand hover:bg-brand/10 active:scale-95 transition-all"
-            >
-              {e.completed ? 'View Course' : e.progress > 0 ? 'Resume' : 'Start'}
-            </button>
-          </div>
+          <CourseCard key={e.id} course={e.course} enrollment={e} />
         ))}
       </div>
     </div>

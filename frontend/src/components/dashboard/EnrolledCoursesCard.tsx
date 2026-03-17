@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { BookOpen, ArrowRight, Clock } from 'lucide-react';
+import { BookOpen, ChevronLeft, ChevronRight } from 'lucide-react';
 import apiClient from '@/lib/axios';
-import { getCategoryGradient } from '@/lib/utils';
+import { CourseCard } from '@/components/courses/CourseCard';
 import type { ApiResponse, Enrollment } from '@/types';
 
 export function EnrolledCoursesCard() {
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -20,89 +20,84 @@ export function EnrolledCoursesCard() {
       .finally(() => setIsLoading(false));
   }, []);
 
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: direction === 'left' ? -280 : 280, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="glass-card rounded-2xl p-6 space-y-4">
+    <div className="glass-card rounded-2xl p-6 space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-shadow duration-300">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-brand/20 flex items-center justify-center">
           <BookOpen className="w-5 h-5 text-brand" />
         </div>
         <div>
-          <h3 className="font-semibold" style={{ fontFamily: 'var(--font-space)' }}>
+          <h3 className="text-xl font-semibold" style={{ fontFamily: 'var(--font-space)' }}>
             My Courses
           </h3>
-          <p className="text-xs text-muted-foreground">Your enrolled courses</p>
+          <p className="text-sm text-gray-400">Your enrolled courses</p>
         </div>
       </div>
 
       {isLoading ? (
-        <div className="space-y-3">
+        <div className="flex gap-5 pb-4 [&::-webkit-scrollbar]:hidden">
           {[1, 2].map((i) => (
-            <div key={i} className="animate-pulse space-y-2">
-              <div className="h-4 bg-muted rounded w-3/4" />
-              <div className="h-2 bg-muted rounded w-full" />
+            <div
+              key={i}
+              className="min-w-[260px] w-[260px] flex-shrink-0 rounded-2xl border border-border bg-card animate-pulse"
+            >
+              <div className="aspect-video bg-muted rounded-t-2xl" />
+              <div className="p-4 space-y-2">
+                <div className="h-3 bg-muted rounded w-20" />
+                <div className="h-4 bg-muted rounded w-3/4" />
+                <div className="h-8 bg-muted rounded-xl" />
+              </div>
             </div>
           ))}
         </div>
       ) : enrollments.length === 0 ? (
-        <div className="text-center py-6 space-y-2">
-          <p className="text-muted-foreground text-sm">
-            You haven&apos;t enrolled in any courses yet.
-          </p>
+        <div className="flex flex-col items-center py-8 gap-3 text-center">
+          <BookOpen className="w-14 h-14 text-brand/30" />
+          <p className="font-semibold text-sm">No courses yet</p>
+          <p className="text-xs text-muted-foreground">Start learning something new today</p>
           <Link
             href="/courses"
-            className="inline-flex items-center gap-1 text-brand text-sm font-medium hover:underline"
+            className="px-4 py-2 rounded-xl bg-brand text-zinc-900 text-xs font-semibold hover:brightness-110 active:scale-[0.96] transition-all"
           >
-            Browse courses <ArrowRight className="w-3 h-3" />
+            Browse Courses
           </Link>
         </div>
       ) : (
-        <div className="space-y-4">
-          {enrollments.map((e) => (
-            <div key={e.id} className="space-y-1">
-              <div className="flex items-start gap-3">
-                {e.course.thumbnail_url ? (
-                  <div className="relative w-10 h-8 rounded overflow-hidden flex-shrink-0">
-                    <Image
-                      src={e.course.thumbnail_url}
-                      alt={e.course.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div
-                    className={`w-10 h-8 rounded flex-shrink-0 bg-gradient-to-br ${getCategoryGradient(
-                      e.course.category,
-                    )} flex items-center justify-center`}
-                  >
-                    <span className="text-xs font-bold text-white/70">
-                      {e.course.title.charAt(0)}
-                    </span>
-                  </div>
-                )}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2">
-                    <p className="text-sm font-medium leading-snug">{e.course.title}</p>
-                    <span className="text-xs text-muted-foreground whitespace-nowrap">
-                      {Math.round(e.progress)}%
-                    </span>
-                  </div>
-                  <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden mt-1">
-                    <div
-                      className="h-full bg-brand rounded-full transition-all"
-                      style={{ width: `${e.progress}%` }}
-                    />
-                  </div>
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
-                    <Clock className="w-3 h-3" />
-                    <span>{e.course.duration_hours}h</span>
-                    <span className="mx-1">·</span>
-                    <span>{e.course.instructor}</span>
-                  </div>
-                </div>
+        <div className="relative">
+          {enrollments.length > 2 && (
+            <button
+              onClick={() => scroll('left')}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center hover:bg-brand/10 transition-colors shadow-md"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+          )}
+          <div
+            ref={scrollRef}
+            className="flex overflow-x-auto gap-5 pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          >
+            {enrollments.map((e) => (
+              <div key={e.id} className="min-w-[260px] w-[260px] flex-shrink-0">
+                <CourseCard course={e.course} enrollment={e} />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          {enrollments.length > 2 && (
+            <button
+              onClick={() => scroll('right')}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center hover:bg-brand/10 transition-colors shadow-md"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          )}
         </div>
       )}
     </div>
