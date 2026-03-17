@@ -74,8 +74,8 @@ export function RecommendedCourses() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <div className="w-10 h-10 rounded-xl bg-brand/20 flex items-center justify-center">
-          <BookOpen className="w-5 h-5 text-brand" />
+        <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center">
+          <BookOpen className="w-5 h-5 text-muted-foreground" />
         </div>
         <div>
           <h3 className="text-xl font-semibold" style={{ fontFamily: 'var(--font-space)' }}>
@@ -88,7 +88,7 @@ export function RecommendedCourses() {
         {courses.length > 2 && (
           <button
             onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center hover:bg-brand/10 transition-colors shadow-md"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center hover:bg-muted transition-colors shadow-md"
             aria-label="Scroll left"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -116,7 +116,7 @@ export function RecommendedCourses() {
         {courses.length > 2 && (
           <button
             onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center hover:bg-brand/10 transition-colors shadow-md"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center hover:bg-muted transition-colors shadow-md"
             aria-label="Scroll right"
           >
             <ChevronRight className="w-4 h-4" />

@@ -353,6 +353,7 @@ export async function getContinueLearning(userId: string): Promise<ContinueLearn
      JOIN courses c ON c.id = l.courseId
      JOIN enrollments e ON e.userId = vp.userId AND e.courseId = c.id
      WHERE vp.userId = ?
+       AND e.completed = false
      ORDER BY vp.updatedAt DESC
      LIMIT 1`,
     [userId],

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { Lock, ChevronLeft, ChevronRight, CheckCircle2, PartyPopper, Award } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import dynamic from 'next/dynamic';
 const YouTubePlayer = dynamic(
@@ -26,6 +26,7 @@ export default function LessonPage({ params }: Props) {
   const [currentLesson, setCurrentLesson] = useState<LessonWithLock | null>(null);
   const [loading, setLoading] = useState(true);
   const [markingComplete, setMarkingComplete] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
   const completingRef = useRef(false);
 
   useEffect(() => {
@@ -97,6 +98,18 @@ export default function LessonPage({ params }: Props) {
       setCurriculum(updatedCurriculum);
 
       const allLessons = updatedCurriculum.sections.flatMap((s) => s.lessons);
+      const completedCount = allLessons.filter((l) => l.is_completed).length;
+      const newPct = Math.round((completedCount / allLessons.length) * 100);
+
+      if (newPct === 100) {
+        setShowCelebration(true);
+        import('canvas-confetti').then((m) =>
+          m.default({ spread: 70, particleCount: 150, origin: { y: 0.6 } })
+        );
+        completingRef.current = false;
+        return;
+      }
+
       const currentIndex = allLessons.findIndex((l) => l.id === lessonId);
       const nextLesson = allLessons.slice(currentIndex + 1).find((l) => !l.is_locked);
 
@@ -155,7 +168,7 @@ export default function LessonPage({ params }: Props) {
           </p>
           <button
             onClick={() => router.back()}
-            className="px-6 py-2.5 rounded-xl bg-brand text-zinc-900 font-semibold text-sm hover:bg-brand/90 transition-colors"
+            className="px-6 py-2.5 rounded-xl bg-brand text-zinc-900 font-semibold text-sm hover:brightness-110 active:scale-[0.96] transition-all"
           >
             Go Back
           </button>
@@ -167,86 +180,125 @@ export default function LessonPage({ params }: Props) {
   const videoId = currentLesson.youtube_url ?? '';
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-[calc(100vh-64px)]">
-      {/* Main content */}
-      <div className="flex-1 p-4 lg:p-6 space-y-4 min-w-0">
-        {/* Breadcrumb + progress */}
-        <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0">
-            <p className="text-xs text-muted-foreground">{curriculum.title}</p>
-            <h1 className="text-xl font-bold mt-1" style={{ fontFamily: 'var(--font-space)' }}>
-              {currentLesson.title}
-            </h1>
+    <>
+      <div className="flex flex-col lg:flex-row min-h-[calc(100vh-64px)]">
+        {/* Main content */}
+        <div className="flex-1 p-4 lg:p-6 space-y-4 min-w-0">
+          {/* Breadcrumb + progress */}
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <p className="text-xs text-muted-foreground">{curriculum.title}</p>
+              <h1 className="text-xl font-bold mt-1" style={{ fontFamily: 'var(--font-space)' }}>
+                {currentLesson.title}
+              </h1>
+            </div>
+            <div className="flex-shrink-0 text-right">
+              <p className="text-xs text-muted-foreground">Course Progress</p>
+              <p className="text-sm font-bold text-brand">{progressPct}%</p>
+            </div>
           </div>
-          <div className="flex-shrink-0 text-right">
-            <p className="text-xs text-muted-foreground">Course Progress</p>
-            <p className="text-sm font-bold text-brand">{progressPct}%</p>
-          </div>
-        </div>
 
-        {/* Video Player */}
-        {videoId ? (
-          <YouTubePlayer
-            videoId={videoId}
-            startSeconds={videoProgress?.last_position_seconds ?? 0}
-            onProgress={handleProgress}
-            onComplete={handleComplete}
-          />
-        ) : (
-          <div className="w-full aspect-video bg-muted rounded-xl flex items-center justify-center">
-            <p className="text-muted-foreground text-sm">No video available for this lesson.</p>
-          </div>
-        )}
-
-        {/* Mark as Complete + Navigation */}
-        <div className="flex items-center justify-between pt-2 gap-3 flex-wrap">
-          <button
-            onClick={() => {
-              if (prevLesson && !prevLesson.is_locked) {
-                router.push(`/learn/${courseId}/${prevLesson.id}`);
-              }
-            }}
-            disabled={!prevLesson || prevLesson.is_locked}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-border text-sm font-medium hover:bg-muted transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Previous
-          </button>
-
-          {!currentLesson.is_completed && (
-            <button
-              onClick={handleManualComplete}
-              disabled={markingComplete}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-brand text-brand text-sm font-medium hover:bg-brand/10 transition-colors disabled:opacity-50"
-            >
-              <CheckCircle2 className="w-4 h-4" />
-              {markingComplete ? 'Marking…' : 'Mark as Complete'}
-            </button>
+          {/* Video Player */}
+          {videoId ? (
+            <YouTubePlayer
+              videoId={videoId}
+              startSeconds={videoProgress?.last_position_seconds ?? 0}
+              onProgress={handleProgress}
+              onComplete={handleComplete}
+            />
+          ) : (
+            <div className="w-full aspect-video bg-muted rounded-xl flex items-center justify-center">
+              <p className="text-muted-foreground text-sm">No video available for this lesson.</p>
+            </div>
           )}
 
-          <button
-            onClick={() => {
-              if (nextLesson && !nextLesson.is_locked) {
-                router.push(`/learn/${courseId}/${nextLesson.id}`);
-              }
-            }}
-            disabled={!nextLesson || nextLesson.is_locked}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-brand text-zinc-900 text-sm font-medium hover:bg-brand/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            Next
-            <ChevronRight className="w-4 h-4" />
-          </button>
+          {/* Mark as Complete + Navigation */}
+          <div className="flex items-center justify-between pt-2 gap-3 flex-wrap">
+            <button
+              onClick={() => {
+                if (prevLesson && !prevLesson.is_locked) {
+                  router.push(`/learn/${courseId}/${prevLesson.id}`);
+                }
+              }}
+              disabled={!prevLesson || prevLesson.is_locked}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-border text-sm font-medium hover:bg-muted transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Previous
+            </button>
+
+            {!currentLesson.is_completed && (
+              <button
+                onClick={handleManualComplete}
+                disabled={markingComplete}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-brand text-brand text-sm font-medium hover:bg-brand/10 transition-colors disabled:opacity-50"
+              >
+                <CheckCircle2 className="w-4 h-4" />
+                {markingComplete ? 'Marking…' : 'Mark as Complete'}
+              </button>
+            )}
+
+            <button
+              onClick={() => {
+                if (nextLesson && !nextLesson.is_locked) {
+                  router.push(`/learn/${courseId}/${nextLesson.id}`);
+                }
+              }}
+              disabled={!nextLesson || nextLesson.is_locked}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-brand text-zinc-900 text-sm font-medium hover:brightness-110 active:scale-[0.96] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Next
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Sidebar */}
+        <div className="w-full lg:w-80 xl:w-96 border-t lg:border-t-0 lg:border-l border-border lg:overflow-y-auto lg:max-h-[calc(100vh-64px)]">
+          <CourseSidebar
+            curriculum={curriculum}
+            currentLessonId={lessonId}
+            onLessonClick={(id) => router.push(`/learn/${courseId}/${id}`)}
+          />
         </div>
       </div>
 
-      {/* Sidebar */}
-      <div className="w-full lg:w-80 xl:w-96 border-t lg:border-t-0 lg:border-l border-border lg:overflow-y-auto lg:max-h-[calc(100vh-64px)]">
-        <CourseSidebar
-          curriculum={curriculum}
-          currentLessonId={lessonId}
-          onLessonClick={(id) => router.push(`/learn/${courseId}/${id}`)}
-        />
-      </div>
-    </div>
+      {/* Course Completion Celebration Modal */}
+      {showCelebration && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="glass-card rounded-2xl p-10 max-w-md w-full text-center space-y-6 shadow-2xl">
+            <div className="flex justify-center">
+              <div className="w-20 h-20 rounded-full bg-brand/20 flex items-center justify-center">
+                <PartyPopper className="w-10 h-10 text-brand" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-space)' }}>
+                Course Completed!
+              </h2>
+              <p className="text-muted-foreground text-sm">{curriculum.title}</p>
+              <p className="text-xs text-muted-foreground">
+                You&apos;ve finished every lesson. Congratulations!
+              </p>
+            </div>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => router.push('/certificates')}
+                className="flex items-center justify-center gap-2 w-full px-5 py-2.5 rounded-xl bg-brand text-zinc-900 font-semibold text-sm hover:brightness-110 active:scale-[0.96] transition-all"
+              >
+                <Award className="w-4 h-4" />
+                View My Certificate
+              </button>
+              <button
+                onClick={() => { setShowCelebration(false); router.push('/dashboard'); }}
+                className="w-full px-5 py-2.5 rounded-xl border border-border text-sm font-medium hover:bg-muted transition-colors"
+              >
+                Back to Dashboard
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

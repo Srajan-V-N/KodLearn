@@ -61,7 +61,7 @@ export function CourseCard({
   const isEnrolled = Boolean(enrollment);
 
   return (
-    <div className="group rounded-2xl border border-border bg-card hover:border-brand/40 hover:-translate-y-1 active:scale-[0.98] transition-all duration-200 flex flex-col overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
+    <div className="group rounded-2xl border border-border hover:border-brand/40 hover:-translate-y-1 active:scale-[0.98] transition-all duration-200 flex flex-col overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
       {/* Thumbnail */}
       <div className="relative">
         {course.thumbnail_url ? (
@@ -149,9 +149,9 @@ export function CourseCard({
           </div>
         ) : isEnrolled ? (
           <div className="space-y-2 pt-2 border-t border-border">
-            <div className="w-full bg-muted rounded-full h-2">
+            <div className="w-full bg-gray-800 rounded-full h-2">
               <div
-                className="bg-brand h-full rounded-full transition-[width] duration-500"
+                className="bg-brand/80 h-full rounded-full transition-[width] duration-500"
                 style={{ width: `${enrollment!.progress}%` }}
               />
             </div>
@@ -161,7 +161,7 @@ export function CourseCard({
               </span>
               <button
                 onClick={() => router.push(`/courses/${course.id}`)}
-                className="px-4 py-2 rounded-xl border border-brand text-brand text-xs font-semibold hover:bg-brand/10 active:scale-[0.96] transition-all"
+                className="px-4 py-2 rounded-xl border border-border text-foreground text-xs font-semibold hover:bg-muted active:scale-[0.96] transition-all"
               >
                 {hasStarted ? 'Continue' : 'Start'}
               </button>

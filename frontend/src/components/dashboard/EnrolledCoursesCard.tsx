@@ -27,10 +27,10 @@ export function EnrolledCoursesCard() {
   };
 
   return (
-    <div className="glass-card rounded-2xl p-6 space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-shadow duration-300">
+    <div className="glass-card rounded-2xl p-6 space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-[3px] transition-all duration-300">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-brand/20 flex items-center justify-center">
-          <BookOpen className="w-5 h-5 text-brand" />
+        <div className="w-10 h-10 rounded-xl bg-muted border border-white/[0.06] flex items-center justify-center">
+          <BookOpen className="w-5 h-5 text-muted-foreground" />
         </div>
         <div>
           <h3 className="text-xl font-semibold" style={{ fontFamily: 'var(--font-space)' }}>
@@ -58,7 +58,7 @@ export function EnrolledCoursesCard() {
         </div>
       ) : enrollments.length === 0 ? (
         <div className="flex flex-col items-center py-8 gap-3 text-center">
-          <BookOpen className="w-14 h-14 text-brand/30" />
+          <BookOpen className="w-14 h-14 text-muted-foreground/40" />
           <p className="font-semibold text-sm">No courses yet</p>
           <p className="text-xs text-muted-foreground">Start learning something new today</p>
           <Link
@@ -73,7 +73,7 @@ export function EnrolledCoursesCard() {
           {enrollments.length > 2 && (
             <button
               onClick={() => scroll('left')}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center hover:bg-brand/10 transition-colors shadow-md"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center hover:bg-muted transition-colors shadow-md"
               aria-label="Scroll left"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -92,7 +92,7 @@ export function EnrolledCoursesCard() {
           {enrollments.length > 2 && (
             <button
               onClick={() => scroll('right')}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center hover:bg-brand/10 transition-colors shadow-md"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center hover:bg-muted transition-colors shadow-md"
               aria-label="Scroll right"
             >
               <ChevronRight className="w-4 h-4" />

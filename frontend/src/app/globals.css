@@ -5,13 +5,13 @@
 @layer base {
   :root {
     /* ShadCN HSL vars — light */
-    --background: 0 0% 98%;
+    --background: 220 10% 96%;
     --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
+    --card: 0 0% 98.5%;
     --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
+    --popover: 0 0% 98.5%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 43 100% 50%;
+    --primary: 43 90% 44%;
     --primary-foreground: 240 10% 3.9%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -27,10 +27,10 @@
     --radius: 0.75rem;
 
     /* Glassmorphism tokens — light */
-    --glass-bg: rgba(255, 255, 255, 0.65);
-    --glass-border: rgba(255, 255, 255, 0.8);
+    --glass-bg: transparent;
+    --glass-border: rgba(0, 0, 0, 0.06);
     --glass-blur: 20px;
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
   .dark {
@@ -57,7 +57,7 @@
 
     /* Glassmorphism tokens — dark */
     --glass-bg: rgba(12, 12, 18, 0.65);
-    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.05);
     --glass-blur: 20px;
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
   }
@@ -113,6 +113,19 @@
 .prose :where(a):not(:where([class~="not-prose"] *)) {
   color: #feba01;
   text-decoration: underline;
+}
+
+/* Certificate print styles */
+@media print {
+  body * { visibility: hidden; }
+  #certificate-print-root,
+  #certificate-print-root * { visibility: visible; }
+  #certificate-print-root {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
 }
 
 /* Shiki code block wrapper */

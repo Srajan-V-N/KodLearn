@@ -25,7 +25,7 @@ export default function DashboardPage() {
 
   return (
     <PageTransition>
-      <div className="space-y-6">
+      <div className="space-y-8">
         <WelcomeCard />
         <ContinueLearningCard />
         <EnrolledCoursesCard />

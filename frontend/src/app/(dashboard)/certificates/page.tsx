@@ -2,18 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Award } from 'lucide-react';
+import { Award, Eye } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import { PageTransition } from '@/components/common/PageTransition';
+import { CertificatePrintModal } from '@/components/certificates/CertificatePrintModal';
 import apiClient from '@/lib/axios';
 import type { Certificate } from '@/types';
-import { toast } from 'sonner';
 
 export default function CertificatesPage() {
-  const { isAuthenticated, _hasHydrated } = useAuthStore();
+  const { isAuthenticated, _hasHydrated, user } = useAuthStore();
   const router = useRouter();
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeCert, setActiveCert] = useState<Certificate | null>(null);
 
   useEffect(() => {
     if (_hasHydrated && !isAuthenticated) router.replace('/login');
@@ -59,7 +60,7 @@ export default function CertificatesPage() {
             </div>
             <button
               onClick={() => router.push('/courses')}
-              className="px-6 py-2.5 rounded-xl bg-brand text-zinc-900 font-semibold text-sm hover:bg-brand/90 transition-colors"
+              className="px-6 py-2.5 rounded-xl bg-brand text-zinc-900 font-semibold text-sm hover:brightness-110 active:scale-[0.96] transition-all"
             >
               Browse Courses
             </button>
@@ -69,7 +70,7 @@ export default function CertificatesPage() {
             {certificates.map((cert) => (
               <div
                 key={cert.id}
-                className="glass-card rounded-2xl p-6 space-y-4 border border-brand/20 hover:border-brand/40 transition-colors"
+                className="glass-card rounded-2xl p-6 space-y-4 border border-brand/20 hover:border-brand/40 hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all duration-300"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="w-12 h-12 rounded-xl bg-brand/20 flex items-center justify-center flex-shrink-0">
@@ -90,17 +91,37 @@ export default function CertificatesPage() {
                   <p className="font-bold mt-1 leading-snug">{cert.course.title}</p>
                   <p className="text-xs text-muted-foreground mt-1">{cert.course.instructor}</p>
                 </div>
-                <button
-                  onClick={() => toast.info('PDF download coming soon!')}
-                  className="w-full text-xs font-medium py-2 rounded-xl border border-brand text-brand hover:bg-brand/10 transition-colors"
-                >
-                  Download Certificate
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setActiveCert(cert)}
+                    className="flex-1 flex items-center justify-center gap-1.5 text-xs font-medium py-2 rounded-xl border border-brand text-brand hover:bg-brand/10 transition-colors"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    View Certificate
+                  </button>
+                  <button
+                    onClick={() => { setActiveCert(cert); setTimeout(() => window.print(), 100); }}
+                    className="flex-1 text-xs font-semibold py-2 rounded-xl bg-brand text-zinc-900 hover:brightness-110 active:scale-[0.96] transition-all"
+                  >
+                    Download
+                  </button>
+                </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {activeCert && (
+        <CertificatePrintModal
+          userName={user?.username ?? 'Student'}
+          courseTitle={activeCert.course.title}
+          instructor={activeCert.course.instructor}
+          issuedAt={activeCert.issued_at}
+          certId={activeCert.id}
+          onClose={() => setActiveCert(null)}
+        />
+      )}
     </PageTransition>
   );
 }
